@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // Private Variables
+    [SerializeField] private float leftBounds, rightBounds, upperBounds, lowerBounds;
+
     // Public Variables
-    public float speed = 10f;
+    public float speed = 8f;
 
     void Start()
     {
+        leftBounds = -10;
+        rightBounds = 10;
+        upperBounds = 5.9f;
+        lowerBounds = -4;
+
         // Set the start position.
         transform.position = new Vector3(0, 0, 0);
     }
@@ -19,10 +27,10 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // transform.Translate( ((Vector3.right * horizontalInput) * speed) * Time.deltaTime ); //// Old way
-        // transform.Translate( ((Vector3.forward * verticalInput) * speed) * Time.deltaTime ); //// Old way
+        Vector3 playerPos = transform.position;
+        transform.position = new Vector3 (Mathf.Clamp(playerPos.x, leftBounds, rightBounds), Mathf.Clamp(playerPos.y, lowerBounds, upperBounds), 0);
 
-        // More optimal way.
-        transform.Translate((new Vector3(horizontalInput, verticalInput, 0) * speed) * Time.deltaTime);
+        transform.Translate((new Vector3(horizontalInput, verticalInput, 0).normalized * speed) * Time.deltaTime);
+
     }
 }
