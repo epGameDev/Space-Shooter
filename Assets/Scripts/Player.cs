@@ -12,10 +12,10 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        leftBounds = -10;
-        rightBounds = 10;
+        leftBounds = -9.1f;
+        rightBounds = 9.1f;
         upperBounds = 5.9f;
-        lowerBounds = -4;
+        lowerBounds = -4f;
 
         // Set the start position.
         transform.position = new Vector3(0, 0, 0);
@@ -24,13 +24,21 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerMovement ();
+
+    }
+
+    void playerMovement () 
+    {
+        // User Controls
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
+        // Player Restrictions
         Vector3 playerPos = transform.position;
         transform.position = new Vector3 (Mathf.Clamp(playerPos.x, leftBounds, rightBounds), Mathf.Clamp(playerPos.y, lowerBounds, upperBounds), 0);
 
-        transform.Translate((new Vector3(horizontalInput, verticalInput, 0).normalized * speed) * Time.deltaTime);
-
+        // Player Movement
+        transform.Translate( (new Vector3(horizontalInput, verticalInput, 0).normalized * speed ) * Time.deltaTime);
     }
 }

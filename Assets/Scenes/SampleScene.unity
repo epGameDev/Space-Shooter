@@ -333,6 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225d13d50103a7249acd1a49b8efccbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftBounds: -9
+  rightBounds: 9
+  upperBounds: 5.9
+  lowerBounds: -4
+  speed: 10
 --- !u!65 &1955884404
 BoxCollider:
   m_ObjectHideFlags: 0
