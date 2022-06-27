@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,11 +5,8 @@ public class Enemy : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
     [SerializeField] private float _randomSpawnLocation, _leftBounds, _rightBounds;
+    [SerializeField] private float speed = 4, health = 100;
 
-    //====================================//
-    //========= Public Variables =========//
-    public float speed = 4, health = 100;
-    
 
     void Start()
     {
@@ -45,6 +40,7 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
+
             Destroy(this.gameObject);
         }
         
@@ -64,15 +60,4 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(_randomSpawnLocation, 8, 0);
         }
     }
-
-    public void EnemyDamaged(int damage)
-    {
-        health -= damage;
-
-        if (health <= 0) {
-            Destroy(this.gameObject);
-        }
-    }
-
-
 }

@@ -10,17 +10,14 @@ public class Player : MonoBehaviour
     //========= Private Variables =========//
 
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
-    [SerializeField] private float _coolDown, _shotCount, _shotLimit;
+    [SerializeField] private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
     [SerializeField] private GameObject _laser, _firePos1;
     [SerializeField] private int _damage, _lives;
     private bool canFire = true;
 
 
-    //====================================//
-    //========= Public Variables =========//
 
-    public float speed = 8f;
 
 
     void Start()
@@ -34,12 +31,13 @@ public class Player : MonoBehaviour
         _shotLimit = 30f;
         _shotCount = 0f;
         _fireRate = 0.2f;
-        _timeSinceFired = Time.time + _fireRate;
         _damage = 30;
         _lives = 3;
+        _speed = 8f;
 
-        // Set the start position.
+        // Set the start position and fire rate
         transform.position = new Vector3(0, 0, 0);
+        _timeSinceFired = Time.time + _fireRate;
        
 
     }
@@ -61,13 +59,14 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         // Player Movement
-        transform.Translate( (new Vector3(horizontalInput, verticalInput, 0).normalized * speed ) * Time.deltaTime);
+        transform.Translate( (new Vector3(horizontalInput, verticalInput, 0).normalized * _speed ) * Time.deltaTime);
 
         // Player Restrictions
         Vector3 playerPos = transform.position;
         transform.position = new Vector3 (Mathf.Clamp(playerPos.x, _leftBounds, _rightBounds), Mathf.Clamp(playerPos.y, _lowerBounds, _upperBounds), 0);
 
     }
+
 
     private void FireLaser ()
     {  
@@ -91,8 +90,8 @@ public class Player : MonoBehaviour
             _shotCount -= 1 * (Time.deltaTime / 0.60f);
             if (_shotCount < 0) _shotCount = 0;
         }
-
     }
+
 
     IEnumerator CoolDownTimer () {
 
@@ -101,6 +100,7 @@ public class Player : MonoBehaviour
         StopAllCoroutines();
 
     }
+    
 
     public void Damage()
     {
@@ -109,7 +109,6 @@ public class Player : MonoBehaviour
         if (_lives <=0) {
             Destroy(this.gameObject);
         }
-        
-    }
 
+    }
 }
