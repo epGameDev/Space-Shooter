@@ -1,19 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class Laser : MonoBehaviour
 {
     // Private Variables
-    [SerializeField] private float laserSpeed;
+    [SerializeField] private float laserSpeed = 10f;
+    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        laserSpeed = 8;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         LaserMovement();

@@ -1,22 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Private Variables
-    [SerializeField] private float leftBounds, rightBounds, upperBounds, lowerBounds;
-    [SerializeField] private GameObject laser;
+    //=====================================//
+    //========= Private Variables =========//
 
-    // Public Variables
+    [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
+    [SerializeField] private float _coolDown, _shotCount, _shotLimit;
+    [SerializeField] private float _timeSinceFired, _fireRate;
+    [SerializeField] private GameObject _laser, _firePos1;
+    private bool canFire = true;
+
+    //====================================//
+    //========= Public Variables =========//
+
     public float speed = 8f;
+
 
     void Start()
     {
-        leftBounds = -9.1f;
-        rightBounds = 9.1f;
-        upperBounds = 5.9f;
-        lowerBounds = -4f;
+        // Initialize Values
+        _leftBounds = -9.1f;
+        _rightBounds = 9.1f;
+        _upperBounds = 5.9f;
+        _lowerBounds = -4f;
+        _coolDown = 10f;
+        _shotLimit = 30f;
+        _shotCount = 0f;
+        _fireRate = 0.5f;
+        _timeSinceFired = Time.time + _fireRate;
 
         // Set the start position.
         transform.position = new Vector3(0, 0, 0);
@@ -45,15 +58,41 @@ public class Player : MonoBehaviour
 
         // Player Restrictions
         Vector3 playerPos = transform.position;
-        transform.position = new Vector3 (Mathf.Clamp(playerPos.x, leftBounds, rightBounds), Mathf.Clamp(playerPos.y, lowerBounds, upperBounds), 0);
+        transform.position = new Vector3 (Mathf.Clamp(playerPos.x, _leftBounds, _rightBounds), Mathf.Clamp(playerPos.y, _lowerBounds, _upperBounds), 0);
+
     }
 
     void FireLaser ()
-    {
+    {  
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Instantiate(laser, this.transform.position, Quaternion.identity);
+        // Fire Conditions 
+        if (_shotCount < _shotLimit){ 
+            canFire = true;
+        }else{
+            canFire = false;
+            StartCoroutine(CoolDownTimer());
         }
+
+        // Fire Logic
+        if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
+        {
+            Debug.Log("fire!");
+            Instantiate(_laser, _firePos1.transform.position, Quaternion.identity);
+            _timeSinceFired = Time.time + _fireRate;
+            _shotCount++;
+        }
+        else if (_shotCount >=0 && canFire) {
+            _shotCount -= 1 * (Time.deltaTime / 0.60f);
+            if (_shotCount < 0) _shotCount = 0;
+        }
+
+    }
+
+    IEnumerator CoolDownTimer () {
+
+        yield return new WaitForSecondsRealtime(_coolDown);
+        _shotCount = 0;
+        StopAllCoroutines();
+
     }
 }

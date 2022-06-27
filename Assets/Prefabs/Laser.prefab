@@ -111,3 +111,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb344d19ce50eac49bf3d798fc3e5dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  laserSpeed: 0
