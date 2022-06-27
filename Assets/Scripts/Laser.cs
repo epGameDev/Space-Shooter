@@ -5,7 +5,7 @@ public class Laser : MonoBehaviour
 {
     // Private Variables
     [SerializeField] private float laserSpeed = 10f;
-    
+
 
     void Update()
     {
@@ -21,4 +21,6 @@ public class Laser : MonoBehaviour
     {
         transform.Translate((Vector3.up * laserSpeed) * Time.deltaTime);
     }
+
+    
 }

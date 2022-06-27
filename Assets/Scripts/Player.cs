@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Enemy enemy;
+
+
     //=====================================//
     //========= Private Variables =========//
 
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     [SerializeField] private float _coolDown, _shotCount, _shotLimit;
-    [SerializeField] private float _timeSinceFired, _fireRate;
+    [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
     [SerializeField] private GameObject _laser, _firePos1;
+    [SerializeField] private int _damage, _lives;
     private bool canFire = true;
+
 
     //====================================//
     //========= Public Variables =========//
@@ -28,11 +33,15 @@ public class Player : MonoBehaviour
         _coolDown = 10f;
         _shotLimit = 30f;
         _shotCount = 0f;
-        _fireRate = 0.5f;
+        _fireRate = 0.2f;
         _timeSinceFired = Time.time + _fireRate;
+        _damage = 30;
+        _lives = 3;
 
         // Set the start position.
         transform.position = new Vector3(0, 0, 0);
+       
+
     }
 
  
@@ -42,16 +51,14 @@ public class Player : MonoBehaviour
         FireLaser();
     }
 
-
     //==================================//
     //========= Custom Methods =========//
 
-    void PlayerMovement () 
+    private void PlayerMovement () 
     {
         // User Controls => GetAxis for smooth movement => GetAxisRaw for arcade movment.
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
 
         // Player Movement
         transform.Translate( (new Vector3(horizontalInput, verticalInput, 0).normalized * speed ) * Time.deltaTime);
@@ -62,7 +69,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void FireLaser ()
+    private void FireLaser ()
     {  
 
         // Fire Conditions 
@@ -76,7 +83,6 @@ public class Player : MonoBehaviour
         // Fire Logic
         if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
         {
-            Debug.Log("fire!");
             Instantiate(_laser, _firePos1.transform.position, Quaternion.identity);
             _timeSinceFired = Time.time + _fireRate;
             _shotCount++;
@@ -95,4 +101,15 @@ public class Player : MonoBehaviour
         StopAllCoroutines();
 
     }
+
+    public void Damage()
+    {
+        _lives--;
+        
+        if (_lives <=0) {
+            Destroy(this.gameObject);
+        }
+        
+    }
+
 }
