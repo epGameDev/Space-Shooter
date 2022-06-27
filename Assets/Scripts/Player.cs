@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
     [SerializeField] private GameObject _laser, _firePos1;
-    [SerializeField] private int _damage, _lives;
+    [SerializeField] private int _lives;
     private bool canFire = true;
 
 
@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
         _shotLimit = 30f;
         _shotCount = 0f;
         _fireRate = 0.2f;
-        _damage = 30;
         _lives = 3;
         _speed = 8f;
 
@@ -100,7 +99,7 @@ public class Player : MonoBehaviour
         StopAllCoroutines();
 
     }
-    
+
 
     public void Damage()
     {
