@@ -4,15 +4,17 @@ public class Enemy : MonoBehaviour
 {
     //=====================================//
     //========= Private Variables =========//
-    [SerializeField] private float _randomSpawnLocation, _leftBounds, _rightBounds;
+    [SerializeField] private float _leftBounds, _rightBounds;
     [SerializeField] private float speed = 4, health = 100;
+
+    public float randomSpawnLocation;
 
 
     void Start()
     {
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
-        _randomSpawnLocation = 0f;
+        randomSpawnLocation = 0f;
     }
 
 
@@ -54,10 +56,10 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate( (Vector3.down * speed) * Time.deltaTime);
 
-        _randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
+        randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
         
         if(transform.position.y < -6f) {
-            transform.position = new Vector3(_randomSpawnLocation, 8, 0);
+            transform.position = new Vector3(randomSpawnLocation, 8, 0);
         }
     }
 }
