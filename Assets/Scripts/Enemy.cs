@@ -24,7 +24,8 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter2D(Collider2D other) {
+        
         if (other.transform.tag == "laser") {
             Destroy(other.gameObject);
             health -= 30;
