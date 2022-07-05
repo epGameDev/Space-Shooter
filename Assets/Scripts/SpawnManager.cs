@@ -22,12 +22,6 @@ public class SpawnManager : MonoBehaviour
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));
 
-
-            if (_gameOver)
-            {
-                Destroy(_enemyContainer.GetComponentInChildren<Transform>());
-            }
-
         }
 
         if (!_gameOver) 
@@ -40,5 +34,6 @@ public class SpawnManager : MonoBehaviour
 
     public void GameOver() {
         _gameOver = true;
+        Destroy(_enemyContainer.GetComponentInChildren<Transform>().gameObject);
     }
 }
