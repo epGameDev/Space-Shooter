@@ -10,11 +10,12 @@ public class Player : MonoBehaviour
     //========= Private Variables =========//
 
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
-    [SerializeField] private float _coolDown, _shotCount, _shotLimit, _speed;
+    private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
-    [SerializeField] private GameObject _laser, _firePos1;
+    [SerializeField] private GameObject _laser, _auxLaser, _firePos1, _firePos2;
     [SerializeField] SpawnManager _spawnManager;
-    [SerializeField] public int lives { get; private set; }
+    public int lives { get; private set; }
+    [SerializeField] private bool _auxEnabled = false;
     private bool canFire = true;
 
 
@@ -85,6 +86,11 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
         {
             Instantiate(_laser, _firePos1.transform.position, Quaternion.identity);
+
+            if (_auxEnabled) {
+                Instantiate(_auxLaser, _firePos2.transform.position, Quaternion.identity);
+            }
+            
             _timeSinceFired = Time.time + _fireRate;
             _shotCount++;
         }
@@ -116,4 +122,10 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void EnableTrippleShot ()
+    {
+        _auxEnabled = true;
+    }
+
 }
