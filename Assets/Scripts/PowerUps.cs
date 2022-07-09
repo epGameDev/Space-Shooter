@@ -5,6 +5,7 @@ using UnityEngine;
 public class PowerUps : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
+    [SerializeField] private int _powerUpID;
 
 
 
@@ -27,8 +28,24 @@ public class PowerUps : MonoBehaviour
             if (player == null) 
             {
                 Debug.Log("No Player Script Found");
-            } else{
-                player.EnableTrippleShot();
+            } else
+            {
+                switch (_powerUpID)
+                {
+                    case 0:
+                        player.EnableTrippleShot();
+                        break;
+                    case 1:
+                        player.EnableSpeedBoost();
+                        break;
+                    case 2:
+                        player.PowerShields();
+                        break;
+
+                    default:
+                        Debug.Log("No Power Ups Were Found");
+                    break;
+                }
             }
 
             SelfDestruct();

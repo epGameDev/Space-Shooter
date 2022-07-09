@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab, _enemyContainer, Player;
-    [SerializeField] private GameObject _trippleShot, _speedBurst, _sheildsUp;
+    [SerializeField] private GameObject[] _powerUps;
     private bool _gameOver = false;
 
 
@@ -40,10 +40,12 @@ public class SpawnManager : MonoBehaviour
     {
         Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
 
-        while (!_gameOver && _trippleShot != null && _speedBurst != null && _sheildsUp != null) 
+        // _trippleShot != null && _speedBurst != null && _sheildsUp != null
+        while (!_gameOver && _powerUps != null) 
         {
             yield return new WaitForSeconds(Random.Range(10f, 20f));
-            GameObject _powerUp = Instantiate(_trippleShot, randomStartPosition, Quaternion.identity);
+            Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
+
         }
         
         if (!_gameOver) 

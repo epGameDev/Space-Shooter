@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] SpawnManager _spawnManager;
     public int lives { get; private set; }
     [SerializeField] private bool _tripleShotEnabled = false;
-    private bool canFire = true;
+    private bool canFire = true, _shieldEnabled = false;
 
 
     private void Awake() {
@@ -104,14 +104,21 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(_coolDown);
         _shotCount = 0;
-        StopAllCoroutines();
+        StopCoroutine(CoolDownTimer());
 
     }
 
 
     public void Damage()
     {
-        lives--;
+        if (_shieldEnabled)
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            _shieldEnabled = false;
+        }else
+        {
+            lives--;
+        }
 
         
         if (lives <= 0) {
@@ -133,6 +140,25 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _tripleShotEnabled = false;
         StopCoroutine(DisableTrippleShot());
+    }
+
+    public void EnableSpeedBoost () 
+    {
+        _speed = 12f;
+        StartCoroutine(DisableSpeedBoost());
+    }
+
+    private IEnumerator DisableSpeedBoost ()
+    {
+        yield return new WaitForSeconds(8f);
+        _speed = 8f;
+        StopCoroutine(DisableSpeedBoost());
+    }
+
+    public void PowerShields()
+    {
+        _shieldEnabled = true;
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
 }
