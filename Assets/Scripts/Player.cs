@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
             if (_auxEnabled) {
                 Instantiate(_auxLaser, _firePos2.transform.position, Quaternion.identity);
             }
-            
+
             _timeSinceFired = Time.time + _fireRate;
             _shotCount++;
         }
@@ -126,6 +126,14 @@ public class Player : MonoBehaviour
     public void EnableTrippleShot ()
     {
         _auxEnabled = true;
+        StartCoroutine(DisableTrippleShot());
+    }
+
+    private IEnumerator DisableTrippleShot ()
+    {
+        yield return new WaitForSeconds(5f);
+        _auxEnabled = false;
+        StopCoroutine(DisableTrippleShot());
     }
 
 }

@@ -17,7 +17,7 @@ public class PowerUps : MonoBehaviour
     {
         Movement();
 
-        if (transform.position.y < -4f) {
+        if (transform.position.y < -7f) {
             SelfDestruct();
         }
     }
@@ -27,8 +27,14 @@ public class PowerUps : MonoBehaviour
         if(other.transform.tag == "Player") 
         {
 
-            Debug.Log(other.transform.tag);
-            other.transform.GetComponent<Player>().EnableTrippleShot();
+            Player player = other.transform.GetComponent<Player>();
+            if (player == null) 
+            {
+                Debug.Log("No Player Script Found");
+            } else{
+                player.EnableTrippleShot();
+            }
+
             SelfDestruct();
         }
     }
