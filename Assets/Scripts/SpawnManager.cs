@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab, _enemyContainer, _powerUpContainer, Player;
+    [SerializeField] private GameObject _enemyPrefab, _enemyContainer, Player;
     [SerializeField] private GameObject _trippleShot, _speedBurst, _sheildsUp;
     private bool _gameOver = false;
 
@@ -44,13 +44,11 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(10f, 20f));
             GameObject _powerUp = Instantiate(_trippleShot, randomStartPosition, Quaternion.identity);
-            _powerUp.transform.parent = _powerUpContainer.transform;
-
         }
         
         if (!_gameOver) 
         {
-            Debug.Log("No enemy prefab found");
+            Debug.Log("No powerUp prefab found");
         }
 
         StopCoroutine(PowerUpSpawnRoutine());

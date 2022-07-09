@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Enemy enemy;
-
 
     //=====================================//
     //========= Private Variables =========//
@@ -12,10 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
-    [SerializeField] private GameObject _laser, _auxLaser, _firePos1, _firePos2;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
     [SerializeField] SpawnManager _spawnManager;
     public int lives { get; private set; }
-    [SerializeField] private bool _auxEnabled = false;
+    [SerializeField] private bool _tripleShotEnabled = false;
     private bool canFire = true;
 
 
@@ -52,6 +50,7 @@ public class Player : MonoBehaviour
         FireLaser();
     }
 
+
     //==================================//
     //========= Custom Methods =========//
 
@@ -85,10 +84,10 @@ public class Player : MonoBehaviour
         // Fire Logic
         if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
         {
-            Instantiate(_laser, _firePos1.transform.position, Quaternion.identity);
+            Instantiate(_laserPrefab, _firePos1.transform.position, Quaternion.identity);
 
-            if (_auxEnabled) {
-                Instantiate(_auxLaser, _firePos2.transform.position, Quaternion.identity);
+            if (_tripleShotEnabled) {
+                Instantiate(_tripleShotPrefab, _firePos2.transform.position, Quaternion.identity);
             }
 
             _timeSinceFired = Time.time + _fireRate;
@@ -125,14 +124,14 @@ public class Player : MonoBehaviour
 
     public void EnableTrippleShot ()
     {
-        _auxEnabled = true;
+        _tripleShotEnabled = true;
         StartCoroutine(DisableTrippleShot());
     }
 
     private IEnumerator DisableTrippleShot ()
     {
         yield return new WaitForSeconds(5f);
-        _auxEnabled = false;
+        _tripleShotEnabled = false;
         StopCoroutine(DisableTrippleShot());
     }
 

@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    [SerializeField] private float _speed = 3f;
 
 
-    void Start()
-    {
-        _speed = 3f;
-    }
 
     // Update is called once per frame
     void Update()
