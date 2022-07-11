@@ -17,10 +17,10 @@ public class SpawnManager : MonoBehaviour
 
 
     IEnumerator EnemySpawnRoutine () {
-        Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
         
         while (!_gameOver && _enemyPrefab != null) 
         {
+            Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newEnemy = Instantiate<GameObject>(_enemyPrefab, randomStartPosition, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));

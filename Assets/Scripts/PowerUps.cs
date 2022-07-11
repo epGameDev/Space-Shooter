@@ -25,10 +25,7 @@ public class PowerUps : MonoBehaviour
         {
 
             Player player = other.transform.GetComponent<Player>();
-            if (player == null) 
-            {
-                Debug.Log("No Player Script Found");
-            } else
+            if (player != null) 
             {
                 switch (_powerUpID)
                 {
@@ -46,6 +43,8 @@ public class PowerUps : MonoBehaviour
                         Debug.Log("No Power Ups Were Found");
                     break;
                 }
+            } else {
+                Debug.Log("No Player Script Found");
             }
 
             SelfDestruct();

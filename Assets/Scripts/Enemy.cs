@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
     {
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
-        randomSpawnLocation = 0f;
     }
 
 
@@ -55,9 +54,9 @@ public class Enemy : MonoBehaviour
 
     void EnemyMovement() 
     {
-        transform.Translate( (Vector3.down * speed) * Time.deltaTime);
-
         randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
+
+        transform.Translate( (Vector3.down * speed) * Time.deltaTime);
         
         if(transform.position.y < -6f) {
             transform.position = new Vector3(randomSpawnLocation, 8, 0);
