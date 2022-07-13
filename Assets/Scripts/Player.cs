@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private UIManager _uiManager;
 
     //=====================================//
     //========= Private Variables =========//
@@ -11,20 +13,16 @@ public class Player : MonoBehaviour
     private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
     [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
-    [SerializeField] SpawnManager _spawnManager;
     public int lives { get; private set; }
     [SerializeField] private bool _tripleShotEnabled = false;
     private bool canFire = true, _shieldEnabled = false;
 
 
-    private void Awake() {
-        _spawnManager = _spawnManager.GetComponent<SpawnManager>();
-    }
-
-
     void Start()
     {
         // Initialize Values
+        _gameManager.GetComponent<GameManager>();
+        _uiManager.GetComponent<UIManager>();
         _leftBounds = -9.4f;
         _rightBounds = 9.4f;
         _upperBounds = 5.7f;
@@ -69,6 +67,8 @@ public class Player : MonoBehaviour
 
     }
 
+    // ==================================== //
+    // ============== Attack ============== //
 
     private void FireLaser ()
     {  
@@ -109,6 +109,9 @@ public class Player : MonoBehaviour
     }
 
 
+    // ==================================== //
+    // ============== Health ============== //
+
     public void Damage()
     {
         if (_shieldEnabled)
@@ -118,16 +121,23 @@ public class Player : MonoBehaviour
         }else
         {
             lives--;
+            _uiManager.UpdatePlayerHealth(lives);
+            
         }
 
         
-        if (lives <= 0) {
-            
-            _spawnManager.GameOver();
+        if (lives <= 0) 
+        {
+            _gameManager.GameOver();
             Destroy(this.gameObject);
         }
 
     }
+
+
+
+    // ======================================= //
+    // ============== Power Ups ============== //
 
     public void EnableTrippleShot ()
     {

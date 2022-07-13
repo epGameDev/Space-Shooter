@@ -156,4 +156,5 @@ MonoBehaviour:
   _rightBounds: 0
   speed: 5
   health: 100
+  _playerPoints: 10
   randomSpawnLocation: 0

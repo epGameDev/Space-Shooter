@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private UIManager _uiManager;
+
     [SerializeField] private GameObject _enemyPrefab, _enemyContainer, Player;
     [SerializeField] private GameObject[] _powerUps;
     private bool _gameOver = false;
+
+    private void Awake() {
+        _gameManager = GameManager.Instance;
+    }
 
 
     void Start()
@@ -58,7 +65,7 @@ public class SpawnManager : MonoBehaviour
     }
 
 
-    public void GameOver() {
+    public void StopSpawning() {
         _gameOver = true;
         Destroy(_enemyContainer.GetComponentInChildren<Transform>().gameObject);
     }

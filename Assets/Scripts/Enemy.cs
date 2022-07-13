@@ -2,12 +2,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    // GameManager _gameManager;
+    private UIManager _uiManager;
+
     //=====================================//
     //========= Private Variables =========//
     [SerializeField] private float _leftBounds, _rightBounds;
     [SerializeField] private float speed = 4, health = 100;
+    [SerializeField] private int _playerPoints;
 
     public float randomSpawnLocation;
+
+    private void Awake() {
+        _uiManager = UIManager.Instance;
+    }
 
 
     void Start()
@@ -31,6 +40,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (health <= 0 ) {
+            _uiManager.GetPlayerScore(_playerPoints);
             Destroy(this.gameObject);
         }
 
