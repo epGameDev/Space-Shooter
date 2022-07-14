@@ -1,19 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set;}
+    SceneManager sceneManager;
+    [SerializeField] UIManager _uiManager;
 
+    //=====================================//
+    //========= Private Variables =========//
     [SerializeField] private Player _player;
     [SerializeField] private SpawnManager _spawnManager;
-    [SerializeField] UIManager _uiManager;
+
+    //====================================//
+    //========= Public Variables =========//
     public bool gameOver {get; private set;}
 
+
     private void Awake() {
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+
+        if (Instance)
+        {
+            Destroy(gameObject);
+        }
+        else{
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
     
     void Start()
@@ -26,15 +40,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver)
-        {
-            _spawnManager.StopSpawning();
-        }
-
+        RestartGame();
     }
 
     public void GameOver () 
     {
         gameOver = true;
+        _spawnManager.StopSpawning();
+        _uiManager.DisplayGameOver();
+    }
+
+    public void RestartGame() 
+    {
+        if (gameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

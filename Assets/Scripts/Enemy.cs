@@ -1,9 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
 
-    // GameManager _gameManager;
     private UIManager _uiManager;
 
     //=====================================//
@@ -72,4 +72,5 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(randomSpawnLocation, 8, 0);
         }
     }
+
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,7 +8,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance {get; private set;}
 
     [SerializeField] private GameManager _gameManager;
-    [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _scoreText, _gameOverText, _restartGameText;
     [SerializeField] private GameObject _livesUI;
     [SerializeField] private Sprite[] _playerHealthSprites;
 
@@ -18,28 +16,41 @@ public class UIManager : MonoBehaviour
 
     private void Awake() {
         Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
     {
         _gameManager.GetComponent<GameManager>();
+        _gameOverText.gameObject.SetActive(false);
+        _restartGameText.gameObject.SetActive(false);
         _totalScore = 0;
         _scoreText.text = "Score: " + _totalScore;
     }
 
 
+    // =================================+====== //
+    // ============== UI Updates ============== //
+
     public void GetPlayerScore (int _score) 
     {
-        if (!_gameManager.gameOver)
-        {
-            _totalScore += _score;
-            _scoreText.text = "Score: " + _totalScore;
-        }
+        _totalScore += _score;
+        _scoreText.text = "Score: " + _totalScore;
     }
 
     public void UpdatePlayerHealth (int lives)
     {
         _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[lives];
     }
+
+
+    // ==============================++========= //
+    // ============== Game Status ============== //
+
+    public void DisplayGameOver ()
+    {
+        _gameOverText.gameObject.SetActive(true);
+        _restartGameText.gameObject.SetActive(true);
+    }
+
 }

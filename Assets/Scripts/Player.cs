@@ -13,9 +13,14 @@ public class Player : MonoBehaviour
     private float _coolDown, _shotCount, _shotLimit, _speed;
     [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
     [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
-    public int lives { get; private set; }
+    private Vector3 _startPos;
     [SerializeField] private bool _tripleShotEnabled = false;
     private bool canFire = true, _shieldEnabled = false;
+
+    //====================================//
+    //========= Public Variables =========//
+
+    public int lives { get; private set; }
 
 
     void Start()
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
         _rightBounds = 9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
+        _startPos = new Vector3(0,0,0);
         _coolDown = 10f;
         _shotLimit = 30f;
         _shotCount = 0f;
@@ -49,8 +55,8 @@ public class Player : MonoBehaviour
     }
 
 
-    //==================================//
-    //========= Custom Methods =========//
+    // ====================================== //
+    // ============== Movement ============== //
 
     private void PlayerMovement () 
     {
@@ -129,11 +135,10 @@ public class Player : MonoBehaviour
         if (lives <= 0) 
         {
             _gameManager.GameOver();
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
 
     }
-
 
 
     // ======================================= //
