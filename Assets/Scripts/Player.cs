@@ -26,9 +26,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         // Initialize Values
-        _gameManager.GetComponent<GameManager>();
+        _gameManager = GameManager.Instance;
         _uiManager.GetComponent<UIManager>();
-        _leftBounds = -9.4f;
         _rightBounds = 9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
@@ -52,6 +51,11 @@ public class Player : MonoBehaviour
     {
         PlayerMovement ();
         FireLaser();
+
+        if (_gameManager == null)
+        {
+            Debug.Log("Player: _gameManager is Null");
+        }
     }
 
 

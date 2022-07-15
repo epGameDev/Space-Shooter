@@ -5,7 +5,6 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
 
-    public static UIManager Instance {get; private set;}
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMP_Text _scoreText, _gameOverText, _restartGameText;
@@ -15,13 +14,12 @@ public class UIManager : MonoBehaviour
     private int _totalScore;
 
     private void Awake() {
-        Instance = this;
-        // DontDestroyOnLoad(this.gameObject);
+        
     }
 
     void Start()
     {
-        _gameManager.GetComponent<GameManager>();
+        _gameManager = GameManager.Instance;
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
         _totalScore = 0;

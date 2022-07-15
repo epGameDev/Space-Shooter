@@ -5,18 +5,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set;}
-    SceneManager sceneManager;
-    [SerializeField] UIManager _uiManager;
 
     //=====================================//
     //========= Private Variables =========//
-    [SerializeField] private Player _player;
     [SerializeField] private SpawnManager _spawnManager;
+    [SerializeField] private UIManager _uiManager;
 
     //====================================//
     //========= Public Variables =========//
-    public bool gameOver {get; private set;}
-
+    [SerializeField] private bool gameOver;
 
     private void Awake() {
 
@@ -26,21 +23,31 @@ public class GameManager : MonoBehaviour
         }
         else{
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            // DontDestroyOnLoad(this.gameObject);
         }
     }
     
     void Start()
     {
-        _player = _player.GetComponent<Player>();
-        _spawnManager.GetComponent<SpawnManager>();
         _uiManager.GetComponent<UIManager>();
+        _spawnManager.GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        RestartGame();
+        if (gameOver)
+        {
+            RestartGame();
+        }
+
+        if(_uiManager == null){
+            Debug.Log("GameManager: _uiManager is null");
+        }
+        if(_spawnManager == null)
+        {
+            Debug.Log("GameManager: _spawnManager is null");
+        }
     }
 
     public void GameOver () 
@@ -52,8 +59,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame() 
     {
-        if (gameOver && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetButtonDown("Start") || Input.GetKeyDown(KeyCode.R))
         {
+            gameOver = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

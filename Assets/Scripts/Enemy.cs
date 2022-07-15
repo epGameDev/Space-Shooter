@@ -14,13 +14,12 @@ public class Enemy : MonoBehaviour
 
     public float randomSpawnLocation;
 
-    private void Awake() {
-        _uiManager = UIManager.Instance;
-    }
+ 
 
 
     void Start()
     {
+        _uiManager = FindObjectOfType<UIManager>();
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
     }

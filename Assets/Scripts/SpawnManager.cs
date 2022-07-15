@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-
-    [SerializeField] private UIManager _uiManager;
-
-    [SerializeField] private GameObject _enemyPrefab, _enemyContainer, Player;
+    [SerializeField] private GameObject _enemyPrefab, _enemyContainer;
     [SerializeField] private GameObject[] _powerUps;
     private bool _gameOver = false;
+
 
 
     void Start()

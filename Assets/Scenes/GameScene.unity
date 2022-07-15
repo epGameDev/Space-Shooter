@@ -907,9 +907,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ec51ccc7d7deb42b7658d6642b2e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiManager: {fileID: 695363272}
   _player: {fileID: 1786235779}
   _spawnManager: {fileID: 241328501}
-  _uiManager: {fileID: 695363272}
 --- !u!4 &713327571
 Transform:
   m_ObjectHideFlags: 0
@@ -1028,7 +1028,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.0557432, g: 0.024866497, b: 0.103773594, a: 0}
+  m_BackGroundColor: {r: 0.042823397, g: 0.020220716, b: 0.0754717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
