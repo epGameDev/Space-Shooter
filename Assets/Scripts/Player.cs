@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
         // Initialize Values
         _gameManager = GameManager.Instance;
         _uiManager.GetComponent<UIManager>();
+        if(_gameManager == null || _uiManager == null)
+        {
+            Debug.LogError("Player::UI/GameManager is null");
+        }
+
         _rightBounds = 9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
@@ -51,11 +56,6 @@ public class Player : MonoBehaviour
     {
         PlayerMovement ();
         FireLaser();
-
-        if (_gameManager == null)
-        {
-            Debug.Log("Player: _gameManager is Null");
-        }
     }
 
 
@@ -94,7 +94,10 @@ public class Player : MonoBehaviour
         // Fire Logic
         if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
         {
-            Instantiate(_laserPrefab, _firePos1.transform.position, Quaternion.identity);
+            if(_laserPrefab != null)
+            {
+                Instantiate(_laserPrefab, _firePos1.transform.position, Quaternion.identity);
+            }
 
             if (_tripleShotEnabled) {
                 Instantiate(_tripleShotPrefab, _firePos2.transform.position, Quaternion.identity);

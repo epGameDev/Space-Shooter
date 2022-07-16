@@ -1,25 +1,30 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Enemy : MonoBehaviour
 {
 
     private UIManager _uiManager;
+    private Animator _anim;
+    private EdgeCollider2D _collider;
 
     //=====================================//
     //========= Private Variables =========//
     [SerializeField] private float _leftBounds, _rightBounds;
-    [SerializeField] private float speed = 4, health = 100;
+    [SerializeField] private float _speed = 4, _health = 100, _randomSpawnLocation;
     [SerializeField] private int _playerPoints;
-
-    public float randomSpawnLocation;
+    private bool _hasDied;
 
 
     void Start()
     {
         _uiManager = UIManager.Instance;
+        _anim = this.GetComponent<Animator>();
+        _collider = gameObject.GetComponent<EdgeCollider2D>();
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
+        _hasDied = false;
     }
 
 
@@ -33,12 +38,12 @@ public class Enemy : MonoBehaviour
         
         if (other.transform.tag == "laser") {
             Destroy(other.gameObject);
-            health -= 30;
+            _health -= 30;
         }
 
-        if (health <= 0 ) {
+        if (_health <= 0 ) {
             _uiManager.GetPlayerScore(_playerPoints);
-            Destroy(this.gameObject);
+            SelfDestruct();
         }
 
         if (other.transform.name == "Player" )
@@ -50,7 +55,8 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
 
-            Destroy(this.gameObject);
+            SelfDestruct();
+            
         }
         
     }
@@ -61,13 +67,21 @@ public class Enemy : MonoBehaviour
 
     void EnemyMovement() 
     {
-        randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
+        _randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
 
-        transform.Translate( (Vector3.down * speed) * Time.deltaTime);
+        transform.Translate( (Vector3.down * _speed) * Time.deltaTime);
         
-        if(transform.position.y < -6f) {
-            transform.position = new Vector3(randomSpawnLocation, 8, 0);
+        if(transform.position.y < -6f && !_hasDied) {
+            transform.position = new Vector3(_randomSpawnLocation, 8, 0);
         }
+    }
+
+    private void SelfDestruct()
+    {
+        _hasDied = true;
+        _collider.enabled = false;
+        _anim.SetTrigger("OnEnemyDeath");
+        Destroy(this.gameObject, 150f * Time.deltaTime);
     }
 
 }

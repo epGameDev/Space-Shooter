@@ -20,8 +20,19 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _gameManager = GameManager.Instance;
-        _gameOverText.gameObject.SetActive(false);
-        _restartGameText.gameObject.SetActive(false);
+        
+        if (_gameManager == null){
+            Debug.LogError("UIManager::GameManager is null");
+        }
+
+        if(_gameOverText != null || _restartGameText != null)
+        {
+            _gameOverText.gameObject.SetActive(false);
+            _restartGameText.gameObject.SetActive(false);
+        } else{
+            Debug.LogError("UIManager::Game Over objects are null");
+        }
+
         _totalScore = 0;
         _scoreText.text = "Score: " + _totalScore;
     }
@@ -38,7 +49,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerHealth (int lives)
     {
-        _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[lives];
+        if (_livesUI != null)
+        {
+            _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[lives];
+        }else{
+            Debug.LogError("UIManager::GameObject _livesUI is null");
+        }
     }
 
 

@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     {
         _uiManager.GetComponent<UIManager>();
         _spawnManager.GetComponent<SpawnManager>();
+        if(_spawnManager == null || _uiManager == null)
+        {
+            Debug.LogError("GameManager::UI/SpawnManager is null");
+        }
     }
 
     // Update is called once per frame
@@ -41,12 +45,9 @@ public class GameManager : MonoBehaviour
             RestartGame();
         }
 
-        if(_uiManager == null){
-            Debug.Log("GameManager: _uiManager is null");
-        }
-        if(_spawnManager == null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("GameManager: _spawnManager is null");
+            Application.Quit();
         }
     }
 
