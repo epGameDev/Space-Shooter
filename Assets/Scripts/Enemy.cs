@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class Enemy : MonoBehaviour
 {
 
     private UIManager _uiManager;
     private Animator _anim;
+    private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
 
     //=====================================//
@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     {
         _uiManager = UIManager.Instance;
         _anim = this.GetComponent<Animator>();
+        _explosionSound = this.gameObject.GetComponent<AudioSource>();
         _collider = gameObject.GetComponent<EdgeCollider2D>();
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
@@ -81,6 +82,10 @@ public class Enemy : MonoBehaviour
         _hasDied = true;
         _collider.enabled = false;
         _anim.SetTrigger("OnEnemyDeath");
+        if (_explosionSound != null)
+        {
+            _explosionSound.Play();
+        }
         Destroy(this.gameObject, 150f * Time.deltaTime);
     }
 

@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
 
     public void DisplayGameOver ()
     {
+        _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[0];
         _gameOverText.gameObject.SetActive(true);
         _restartGameText.gameObject.SetActive(true);
     }

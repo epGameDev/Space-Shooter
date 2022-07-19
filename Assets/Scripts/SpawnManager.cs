@@ -8,15 +8,8 @@ public class SpawnManager : MonoBehaviour
     private bool _gameOver = false;
 
 
-
-    void Start()
-    {
-        StartCoroutine(EnemySpawnRoutine());
-        StartCoroutine(PowerUpSpawnRoutine());
-    }
-
-
     IEnumerator EnemySpawnRoutine () {
+
         
         while (!_gameOver && _enemyPrefab != null) 
         {
@@ -62,5 +55,11 @@ public class SpawnManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(EnemySpawnRoutine());
+        StartCoroutine(PowerUpSpawnRoutine());
     }
 }

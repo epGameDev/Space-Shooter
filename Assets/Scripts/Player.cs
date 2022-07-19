@@ -5,16 +5,19 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
+    private AudioSource _audio;
+    [SerializeField] private AudioClip _powerUpSound;
 
     //=====================================//
     //========= Private Variables =========//
 
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _coolDown, _shotCount, _shotLimit, _speed;
-    [SerializeField] private float _timeSinceFired, _fireRate, _attackPower;
+    private float _timeSinceFired, _fireRate;
     [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
+    [SerializeField] private GameObject[] _engineDamage;
     private Vector3 _startPos;
-    [SerializeField] private bool _tripleShotEnabled = false;
+    private bool _tripleShotEnabled = false;
     private bool canFire = true, _shieldEnabled = false;
 
     //====================================//
@@ -33,6 +36,8 @@ public class Player : MonoBehaviour
             Debug.LogError("Player::UI/GameManager is null");
         }
 
+        _audio = this.gameObject.GetComponent<AudioSource>();
+
         _rightBounds = 9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
@@ -48,6 +53,8 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _timeSinceFired = Time.time + _fireRate;
        
+       _engineDamage[0].SetActive(false);
+       _engineDamage[1].SetActive(false);
 
     }
 
@@ -97,6 +104,10 @@ public class Player : MonoBehaviour
             if(_laserPrefab != null)
             {
                 Instantiate(_laserPrefab, _firePos1.transform.position, Quaternion.identity);
+                if(_audio != null)
+                {
+                    _audio.Play();
+                }
             }
 
             if (_tripleShotEnabled) {
@@ -136,6 +147,13 @@ public class Player : MonoBehaviour
             lives--;
             _uiManager.UpdatePlayerHealth(lives);
             
+            if(lives == 2)
+            {
+                _engineDamage[0].SetActive(true);
+            } else if (lives == 1)
+            {
+                _engineDamage[1].SetActive(true);
+            }
         }
 
         
@@ -155,6 +173,11 @@ public class Player : MonoBehaviour
     {
         _tripleShotEnabled = true;
         StartCoroutine(DisableTrippleShot());
+
+        if (_audio != null && _powerUpSound != null)
+        {
+            _audio.PlayOneShot(_powerUpSound);
+        }
     }
 
     private IEnumerator DisableTrippleShot ()
@@ -168,6 +191,11 @@ public class Player : MonoBehaviour
     {
         _speed = 12f;
         StartCoroutine(DisableSpeedBoost());
+
+        if(_audio != null && _powerUpSound != null)
+        {
+            _audio.PlayOneShot(_powerUpSound);
+        }
     }
 
     private IEnumerator DisableSpeedBoost ()
@@ -181,6 +209,10 @@ public class Player : MonoBehaviour
     {
         _shieldEnabled = true;
         transform.GetChild(0).gameObject.SetActive(true);
+        if(_audio != null && _powerUpSound != null)
+        {
+            _audio.PlayOneShot(_powerUpSound);
+        }
     }
 
 }
