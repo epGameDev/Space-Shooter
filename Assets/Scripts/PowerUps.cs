@@ -2,12 +2,19 @@ using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
+    // private AudioSource _audio;
+    [SerializeField] private AudioManager _audioManager;
+
+    [SerializeField] AudioClip _powerUpSound;
     [SerializeField] private float _speed = 3f;
     [SerializeField] private int _powerUpID;
 
+    private void Start() 
+    {
+        _audioManager = AudioManager.Instance;    
+    }
 
 
-    // Update is called once per frame
     void Update()
     {
         Movement();
@@ -25,6 +32,12 @@ public class PowerUps : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
             if (player != null) 
             {
+
+                if(_audioManager != null)
+                {
+                    _audioManager.PlayPowerUpSFX();
+                }
+
                 switch (_powerUpID)
                 {
                     case 0:

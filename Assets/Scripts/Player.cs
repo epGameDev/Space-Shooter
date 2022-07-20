@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     private AudioSource _audio;
-    [SerializeField] private AudioClip _powerUpSound;
 
     //=====================================//
     //========= Private Variables =========//
@@ -173,11 +172,6 @@ public class Player : MonoBehaviour
     {
         _tripleShotEnabled = true;
         StartCoroutine(DisableTrippleShot());
-
-        if (_audio != null && _powerUpSound != null)
-        {
-            _audio.PlayOneShot(_powerUpSound);
-        }
     }
 
     private IEnumerator DisableTrippleShot ()
@@ -191,11 +185,6 @@ public class Player : MonoBehaviour
     {
         _speed = 12f;
         StartCoroutine(DisableSpeedBoost());
-
-        if(_audio != null && _powerUpSound != null)
-        {
-            _audio.PlayOneShot(_powerUpSound);
-        }
     }
 
     private IEnumerator DisableSpeedBoost ()
@@ -209,10 +198,6 @@ public class Player : MonoBehaviour
     {
         _shieldEnabled = true;
         transform.GetChild(0).gameObject.SetActive(true);
-        if(_audio != null && _powerUpSound != null)
-        {
-            _audio.PlayOneShot(_powerUpSound);
-        }
     }
 
 }
