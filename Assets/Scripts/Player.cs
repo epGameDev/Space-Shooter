@@ -64,6 +64,14 @@ public class Player : MonoBehaviour
         FireLaser();
     }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.tag == "EnemyFire")
+        {
+            Damage();
+        }
+    }
+
 
     // ====================================== //
     // ============== Movement ============== //
@@ -139,7 +147,7 @@ public class Player : MonoBehaviour
     {
         if (_shieldEnabled)
         {
-            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(3).gameObject.SetActive(false);
             _shieldEnabled = false;
         }else
         {
@@ -197,7 +205,7 @@ public class Player : MonoBehaviour
     public void PowerShields()
     {
         _shieldEnabled = true;
-        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(3).gameObject.SetActive(true);
     }
 
 }

@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _leftBounds, _rightBounds;
     [SerializeField] private float _speed = 4, _health = 100, _randomSpawnLocation;
     [SerializeField] private int _playerPoints;
+    [SerializeField] GameObject _laserPrefab, _firePos;
     private bool _hasDied;
 
 
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
         _hasDied = false;
+
+        StartCoroutine(Fire());
     }
 
 
@@ -75,6 +78,12 @@ public class Enemy : MonoBehaviour
         if(transform.position.y < -6f && !_hasDied) {
             transform.position = new Vector3(_randomSpawnLocation, 8, 0);
         }
+    }
+
+    private IEnumerator Fire()
+    {
+        yield return new WaitForSeconds(Random.Range(6f, 9f));
+        Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
     }
 
     private void SelfDestruct()
