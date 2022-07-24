@@ -5,6 +5,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance {get; private set;}
+    [SerializeField] private Slider _speedBoostLimitUI;
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMP_Text _scoreText, _gameOverText, _restartGameText;
@@ -25,7 +26,7 @@ public class UIManager : MonoBehaviour
             Debug.LogError("UIManager::GameManager is null");
         }
 
-        if(_gameOverText != null || _restartGameText != null)
+        if(_gameOverText != null && _restartGameText != null)
         {
             _gameOverText.gameObject.SetActive(false);
             _restartGameText.gameObject.SetActive(false);
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
 
         _totalScore = 0;
         _scoreText.text = "Score: " + _totalScore;
+        UpdatePlayerBoostSpeed(0);
     }
 
 
@@ -54,6 +56,14 @@ public class UIManager : MonoBehaviour
             _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[lives];
         }else{
             Debug.LogError("UIManager::GameObject _livesUI is null");
+        }
+    }
+
+    public void UpdatePlayerBoostSpeed(float currentBoostSpeed) 
+    {
+        if (_speedBoostLimitUI != null)
+        {
+            _speedBoostLimitUI.value = currentBoostSpeed;
         }
     }
 

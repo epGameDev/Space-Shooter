@@ -90,6 +90,7 @@ public class Enemy : MonoBehaviour
     {
         _hasDied = true;
         _collider.enabled = false;
+        StopAllCoroutines();
         _anim.SetTrigger("OnEnemyDeath");
         if (_explosionSound != null)
         {

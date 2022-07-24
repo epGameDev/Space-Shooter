@@ -10,14 +10,13 @@ public class Player : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
-    private float _coolDown, _shotCount, _shotLimit, _speed;
-    private float _timeSinceFired, _fireRate;
     [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
     [SerializeField] private GameObject[] _engineDamage;
+    [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
+    private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
+    [SerializeField] private float _speed, _speedBurstDuration;
     private Vector3 _startPos;
-    private bool _tripleShotEnabled = false;
-    private bool canFire = true, _shieldEnabled = false;
+    private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false;
 
     //====================================//
     //========= Public Variables =========//
@@ -62,6 +61,7 @@ public class Player : MonoBehaviour
     {
         PlayerMovement ();
         FireLaser();
+        SpeedBurst(12f);
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "EnemyFire")
         {
             Damage();
+            Destroy(other.gameObject);
         }
     }
 
@@ -88,6 +89,30 @@ public class Player : MonoBehaviour
         // Player Restrictions
         Vector3 playerPos = transform.position;
         transform.position = new Vector3 (Mathf.Clamp(playerPos.x, _leftBounds, _rightBounds), Mathf.Clamp(playerPos.y, _lowerBounds, _upperBounds), 0);
+
+    }
+
+    private void SpeedBurst (float burstSpeed)
+    {
+        if (Input.GetButton("Fire3") && _speedBurstDuration > 0 ) 
+        {
+            // Displays Speed UI Meter
+            _uiManager.UpdatePlayerBoostSpeed(_speedBurstDuration);
+
+            _speed = burstSpeed;
+            _speedBurstDuration -= 1 * Time.deltaTime;
+
+            if (_speedBurstDuration <= 0) 
+            {
+                _speedBurstDuration = 0;
+            }
+
+        } 
+        else 
+        {
+            _speed = 8f;
+        }
+    
 
     }
 
@@ -191,15 +216,8 @@ public class Player : MonoBehaviour
 
     public void EnableSpeedBoost () 
     {
-        _speed = 12f;
-        StartCoroutine(DisableSpeedBoost());
-    }
-
-    private IEnumerator DisableSpeedBoost ()
-    {
-        yield return new WaitForSeconds(8f);
-        _speed = 8f;
-        StopCoroutine(DisableSpeedBoost());
+        _speedBurstDuration = 10;
+        _uiManager.UpdatePlayerBoostSpeed(_speedBurstDuration);
     }
 
     public void PowerShields()
