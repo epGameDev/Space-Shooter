@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     private AudioSource _audio;
-    [SerializeField] private Color[] _sheildColor;
 
     //=====================================//
     //========= Private Variables =========//
@@ -125,6 +124,7 @@ public class Player : MonoBehaviour
 
     private void FireLaser ()
     {  
+        _uiManager.UpdatePlayerShotLimit(!canFire, _shotCount);
 
         // Fire Conditions 
         if (_shotCount < _shotLimit){ 
