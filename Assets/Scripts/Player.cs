@@ -6,15 +6,17 @@ public class Player : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
     private AudioSource _audio;
+    [SerializeField] private Color[] _sheildColor;
 
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2, _shield;
     [SerializeField] private GameObject[] _engineDamage;
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
     [SerializeField] private float _speed, _speedBurstDuration;
+    [SerializeField] private int _shieldHealth;
     private Vector3 _startPos;
     private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false;
 
@@ -53,6 +55,8 @@ public class Player : MonoBehaviour
        
        _engineDamage[0].SetActive(false);
        _engineDamage[1].SetActive(false);
+
+       _shield = transform.GetChild(3).gameObject;
 
     }
 
@@ -170,15 +174,38 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        
+
         if (_shieldEnabled)
         {
-            transform.GetChild(3).gameObject.SetActive(false);
-            _shieldEnabled = false;
+            _shieldHealth--;
+
+            switch (_shieldHealth)
+            {
+                case 0:
+                    _shield.SetActive(false);
+                    _shieldEnabled = false;
+                    Debug.Log("In Case 0: No Shield");
+                    break;
+                case 1:     
+                    _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+                    Debug.Log("In Case 1: Low Shield");
+                    break;
+                case 2:
+                    _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+                    Debug.Log("In Case 2: Half Shield");
+                    break;
+                default:
+                    Debug.Log("Shield Health" + _shieldHealth);
+                    break;
+            }
+
         }else
         {
+
             lives--;
             _uiManager.UpdatePlayerHealth(lives);
-            
+
             if(lives == 2)
             {
                 _engineDamage[0].SetActive(true);
@@ -222,8 +249,10 @@ public class Player : MonoBehaviour
 
     public void PowerShields()
     {
+        _shieldHealth = 3;
         _shieldEnabled = true;
-        transform.GetChild(3).gameObject.SetActive(true);
+        _shield.SetActive(true);
+        _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
     }
 
 }
