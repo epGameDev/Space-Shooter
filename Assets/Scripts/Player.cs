@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] private CameraController _camera;
     private AudioSource _audio;
 
     //=====================================//
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
        _engineDamage[1].SetActive(false);
 
        _shield = transform.GetChild(3).gameObject;
+       _camera = _camera.GetComponent<CameraController>();
 
     }
 
@@ -202,8 +204,11 @@ public class Player : MonoBehaviour
 
         }else
         {
-
             lives--;
+            if(lives > 0)
+            {
+                _camera.ShakeCamera();
+            }
             _uiManager.UpdatePlayerHealth(lives);
 
             if(lives == 2)
