@@ -187,15 +187,13 @@ public class Player : MonoBehaviour
                 case 0:
                     _shield.SetActive(false);
                     _shieldEnabled = false;
-                    Debug.Log("In Case 0: No Shield");
+
                     break;
                 case 1:     
                     _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
-                    Debug.Log("In Case 1: Low Shield");
                     break;
                 case 2:
                     _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-                    Debug.Log("In Case 2: Half Shield");
                     break;
                 default:
                     Debug.Log("Shield Health" + _shieldHealth);
@@ -209,15 +207,8 @@ public class Player : MonoBehaviour
             {
                 _camera.ShakeCamera();
             }
-            _uiManager.UpdatePlayerHealth(lives);
-
-            if(lives == 2)
-            {
-                _engineDamage[0].SetActive(true);
-            } else if (lives == 1)
-            {
-                _engineDamage[1].SetActive(true);
-            }
+            
+            HealthCheck();
         }
 
         
@@ -229,6 +220,37 @@ public class Player : MonoBehaviour
 
     }
 
+    private void HealthCheck()
+    {
+        switch (lives)
+        {
+            case 0:
+                _gameManager.GameOver();
+                this.gameObject.SetActive(false);
+                break;
+            case 1:
+                _engineDamage[0].SetActive(true);
+                _engineDamage[1].SetActive(true);
+                break;
+            case 2:
+                _engineDamage[0].SetActive(true);
+                _engineDamage[1].SetActive(false);
+                break;
+            case 3:
+                _engineDamage[0].SetActive(false);
+                _engineDamage[1].SetActive(false);
+                break;
+            case 4:
+                lives = 3;
+                break;
+            default:
+                Debug.LogError("Index for lives is out of range");
+                break;
+        }
+
+        _uiManager.UpdatePlayerHealth(lives);
+
+    }
 
     // ======================================= //
     // ============== Power Ups ============== //
@@ -258,6 +280,12 @@ public class Player : MonoBehaviour
         _shieldEnabled = true;
         _shield.SetActive(true);
         _shield.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+    }
+
+    public void Heal()
+    {
+        lives++;
+        HealthCheck();
     }
 
 }

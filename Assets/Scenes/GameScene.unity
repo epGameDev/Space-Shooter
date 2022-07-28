@@ -713,6 +713,10 @@ MonoBehaviour:
   - {fileID: 2120198160370971777, guid: 5b3100f88528ee04caa0b1d1acff5fec, type: 3}
   - {fileID: 2416634744872094841, guid: 98bf0b680c7a20a438c6a2498693d877, type: 3}
   - {fileID: 3009596054048728444, guid: f4a73c0e37e38d8469a38178dea1919d, type: 3}
+  - {fileID: 2120198160370971777, guid: 5b3100f88528ee04caa0b1d1acff5fec, type: 3}
+  - {fileID: 2416634744872094841, guid: 98bf0b680c7a20a438c6a2498693d877, type: 3}
+  - {fileID: 3009596054048728444, guid: f4a73c0e37e38d8469a38178dea1919d, type: 3}
+  - {fileID: 9222121236277434849, guid: ac7b4ddf2d34752269778f9f606afaf1, type: 3}
 --- !u!4 &241328502
 Transform:
   m_ObjectHideFlags: 0
@@ -1698,6 +1702,8 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1831,6 +1837,39 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!95 &963194230
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb601822b617f6e37a46a7897352cd16, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032c4ae3c169d90e7904da4414adf038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anim: {fileID: 963194230}
 --- !u!1 &989892302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2718,6 +2757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 713327570}
   _uiManager: {fileID: 695363272}
+  _camera: {fileID: 963194231}
   _laserPrefab: {fileID: 5560594941021739479, guid: d9fa41bee25cfae459fdbcc9d5315274, type: 3}
   _tripleShotPrefab: {fileID: 5545273989035976802, guid: 73d791f3f6bd5bb4383d2a0f8fbd1d11, type: 3}
   _firePos1: {fileID: 1772004187}
