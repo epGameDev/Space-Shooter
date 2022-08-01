@@ -52,6 +52,9 @@ public class PowerUps : MonoBehaviour
                     case 3:
                         player.Heal();
                         break;
+                    case 4:
+                        player.LoadBombs();
+                        break;
 
                     default:
                         Debug.Log("No Power Ups Were Found");

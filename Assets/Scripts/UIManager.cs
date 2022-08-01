@@ -8,9 +8,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI;
 
     [SerializeField] private GameManager _gameManager;
-    [SerializeField] private TMP_Text _scoreText, _gameOverText, _restartGameText, _overheatWarningText;
+    [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText;
+    [SerializeField] Text _playerLivesUI, _scoreText;
     [SerializeField] private GameObject _livesUI;
-    [SerializeField] private Sprite[] _playerHealthSprites;
+    [SerializeField] Text[] _ammoCount;
+
 
     private int _totalScore;
 
@@ -39,6 +41,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + _totalScore;
         UpdatePlayerBoostSpeed(0);
         UpdatePlayerShotLimit(false, 0);
+        UpdatePlayerHealth(3);
     }
 
 
@@ -53,12 +56,26 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerHealth (int lives)
     {
-        if (_livesUI != null)
+        switch (lives)
         {
-            _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[lives];
-        }else{
+            case 0:
+                _livesUI.GetComponent<Image>().fillAmount = 0;
+                break;
+            case 1:
+                _livesUI.GetComponent<Image>().fillAmount = 0.33f;
+                break;
+            case 2:
+                _livesUI.GetComponent<Image>().fillAmount = 0.66f;
+                break;
+            case 3:
+                _livesUI.GetComponent<Image>().fillAmount = 1f;
+                break;
+            default:
             Debug.LogError("UIManager::GameObject _livesUI is null");
+            break;
         }
+
+        _playerLivesUI.text = lives.ToString();
     }
 
     public void UpdatePlayerBoostSpeed(float currentBoostSpeed) 
@@ -83,13 +100,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateAmmoCount(int ammoID, int ammoAount)
+    {
+        _ammoCount[ammoID].text = ammoAount.ToString();
+    }
+
 
     // ==============================++========= //
     // ============== Game Status ============== //
 
     public void DisplayGameOver ()
     {
-        _livesUI.GetComponent<Image>().sprite = _playerHealthSprites[0];
+        // _livesUI.GetComponent<Image>().fillAmount = 0;
+        UpdatePlayerHealth(0);
         _gameOverText.gameObject.SetActive(true);
         _restartGameText.gameObject.SetActive(true);
     }

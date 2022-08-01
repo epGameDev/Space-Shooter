@@ -11,12 +11,12 @@ public class Player : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _firePos1, _firePos2, _shield;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield;
     [SerializeField] private GameObject[] _engineDamage;
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
     [SerializeField] private float _speed, _speedBurstDuration;
-    [SerializeField] private int _shieldHealth;
+    [SerializeField] private int _shieldHealth, _bombCount;
     private Vector3 _startPos;
     private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false;
 
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         _coolDown = 10f;
         _shotLimit = 30f;
         _shotCount = 0f;
+        _bombCount = 0;
         _fireRate = 0.2f;
         lives = 3;
         _speed = 8f;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
 
        _shield = transform.GetChild(3).gameObject;
        _camera = _camera.GetComponent<CameraController>();
+        _uiManager.UpdateAmmoCount(0 , _bombCount);
 
     }
 
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
     {
         PlayerMovement ();
         FireLaser();
+        LaunchBomb();
         SpeedBurst(12f);
     }
 
@@ -158,6 +161,17 @@ public class Player : MonoBehaviour
         else if (_shotCount >=0 && canFire) {
             _shotCount -= 1 * (Time.deltaTime / 0.60f);
             if (_shotCount < 0) _shotCount = 0;
+        }
+    }
+
+    private void LaunchBomb()
+    {
+        if (Input.GetButtonDown("Fire2") && _bombCount > 0)
+        {
+            _bombCount--;
+            Instantiate(_bombPrefab, _bombPos.transform.position, Quaternion.identity);
+            _uiManager.UpdateAmmoCount(0 , _bombCount);
+
         }
     }
 
@@ -266,6 +280,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _tripleShotEnabled = false;
         StopCoroutine(DisableTrippleShot());
+    }
+
+    public void LoadBombs()
+    {
+        _bombCount += 2;
+        _uiManager.UpdateAmmoCount(0 , _bombCount);
     }
 
     public void EnableSpeedBoost () 

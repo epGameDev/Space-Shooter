@@ -45,9 +45,10 @@ public class Enemy : MonoBehaviour
             _health -= 30;
         }
 
-        if (_health <= 0 ) {
-            _uiManager.GetPlayerScore(_playerPoints);
-            SelfDestruct();
+        if (_health <= 0 ) 
+        {
+ 
+            SelfDestruct(true);
         }
 
         if (other.transform.name == "Player" )
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
 
-            SelfDestruct();
+            SelfDestruct(false);
             
         }
         
@@ -86,8 +87,13 @@ public class Enemy : MonoBehaviour
         Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
     }
 
-    private void SelfDestruct()
+    public void SelfDestruct(bool canGetPoints) 
     {
+        if (canGetPoints)
+        {
+            _uiManager.GetPlayerScore(_playerPoints);
+        }
+
         _hasDied = true;
         _collider.enabled = false;
         StopAllCoroutines();
