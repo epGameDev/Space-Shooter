@@ -2469,7 +2469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3936321458616449684, guid: e1bfe25da3304b739ae1a61ab8c16c98, type: 3}
       propertyPath: m_Name
-      value: HealthUI/Ammo Cluster
+      value: Left HealthUI/Ammo Cluster
       objectReference: {fileID: 0}
     - target: {fileID: 3937861224707204261, guid: e1bfe25da3304b739ae1a61ab8c16c98, type: 3}
       propertyPath: m_Enabled
@@ -2553,13 +2553,57 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmmoCount
       objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595742, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_Text
+      value: 4 / 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595742, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595742, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595742, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_FontData.m_AlignByGeometry
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595742, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595743, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 107.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595743, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 74.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937301532595743, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -138.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937302316470433, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937302316470433, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 56ddc268965550041b2ecf66583e6915, type: 3}
     - target: {fileID: 966937302316470433, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 0.68235296
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470444, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_Name
       value: Ammo
+      objectReference: {fileID: 0}
+    - target: {fileID: 966937302316470446, guid: 97f209527e39797b3987776a55e22a96, type: 3}
+      propertyPath: m_Interactable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_Pivot.x
@@ -2599,15 +2643,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2639,11 +2683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 151.29016
+      value: 175.3
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 94.02931
+      value: 92.5
       objectReference: {fileID: 0}
     - target: {fileID: 966937302316470447, guid: 97f209527e39797b3987776a55e22a96, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2798,6 +2842,18 @@ PrefabInstance:
     - target: {fileID: 3889904068962766944, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
       propertyPath: m_Name
       value: ScoreText
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889904068962766974, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889904068962766974, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889904068962766974, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3889904069559507853, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
       propertyPath: m_Name

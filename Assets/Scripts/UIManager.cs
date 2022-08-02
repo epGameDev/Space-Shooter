@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
         }
 
         _totalScore = 0;
-        _scoreText.text = "Score: " + _totalScore;
+        _scoreText.text = _totalScore.ToString();
         UpdatePlayerBoostSpeed(0);
         UpdatePlayerShotLimit(false, 0);
         UpdatePlayerHealth(3);
@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
     public void GetPlayerScore (int _score) 
     {
         _totalScore += _score;
-        _scoreText.text = "Score: " + _totalScore;
+        _scoreText.text = _totalScore.ToString();
     }
 
     public void UpdatePlayerHealth (int lives)
@@ -100,9 +100,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateAmmoCount(int ammoID, int ammoAount)
+    public void UpdateAmmoCount(int ammoID, int ammoAount, int maxAmmo)
     {
-        _ammoCount[ammoID].text = ammoAount.ToString();
+        _ammoCount[ammoID].text = (ammoAount.ToString() + " / " + maxAmmo);
     }
 
 

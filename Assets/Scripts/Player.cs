@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
     [SerializeField] private float _speed, _speedBurstDuration;
     [SerializeField] private int _shieldHealth, _bombCount;
+    private int _maxBombs = 8;
     private Vector3 _startPos;
     private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false;
 
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
         _audio = this.gameObject.GetComponent<AudioSource>();
 
         _rightBounds = 9.4f;
+        _leftBounds = -9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
         _startPos = new Vector3(0,0,0);
@@ -59,7 +61,7 @@ public class Player : MonoBehaviour
 
        _shield = transform.GetChild(3).gameObject;
        _camera = _camera.GetComponent<CameraController>();
-        _uiManager.UpdateAmmoCount(0 , _bombCount);
+        _uiManager.UpdateAmmoCount(0 , _bombCount, 8);
 
     }
 
@@ -170,7 +172,7 @@ public class Player : MonoBehaviour
         {
             _bombCount--;
             Instantiate(_bombPrefab, _bombPos.transform.position, Quaternion.identity);
-            _uiManager.UpdateAmmoCount(0 , _bombCount);
+            _uiManager.UpdateAmmoCount(0 , _bombCount, 8);
 
         }
     }
@@ -284,8 +286,12 @@ public class Player : MonoBehaviour
 
     public void LoadBombs()
     {
-        _bombCount += 2;
-        _uiManager.UpdateAmmoCount(0 , _bombCount);
+        if (_bombCount < _maxBombs)
+        {
+            _bombCount += 2;
+        }
+
+        _uiManager.UpdateAmmoCount(0 , _bombCount, 8);
     }
 
     public void EnableSpeedBoost () 

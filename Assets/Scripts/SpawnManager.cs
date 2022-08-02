@@ -8,7 +8,8 @@ public class SpawnManager : MonoBehaviour
     private bool _gameOver = false;
 
 
-    IEnumerator EnemySpawnRoutine () {
+    IEnumerator EnemySpawnRoutine () 
+    {
 
         
         while (!_gameOver && _enemyPrefab != null) 
@@ -22,8 +23,9 @@ public class SpawnManager : MonoBehaviour
                 newEnemy.transform.parent = _enemyContainer.transform;
             }
 
+            newEnemy.GetComponent<Enemy>().EnableShield();
         }
- 
+
         StopCoroutine(EnemySpawnRoutine());
 
     }
