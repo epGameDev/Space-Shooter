@@ -52,3 +52,6 @@ TagManager:
   - name: Foreground Layer
     uniqueID: 1775404541
     locked: 0
+  - name: Particle Layer
+    uniqueID: 3421417791
+    locked: 0

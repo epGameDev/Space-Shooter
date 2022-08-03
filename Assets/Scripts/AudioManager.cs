@@ -27,8 +27,8 @@ public class AudioManager : MonoBehaviour
         _audio.Play();
     }
 
-    public void PlayPowerUpSFX()
+    public void PlayPowerUpSFX(AudioClip sfx)
     {
-        _audio.PlayOneShot(_powerUpSFX);
+        _audio.PlayOneShot(sfx);
     }
 }

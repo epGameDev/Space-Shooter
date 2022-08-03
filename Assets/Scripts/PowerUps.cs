@@ -35,7 +35,7 @@ public class PowerUps : MonoBehaviour
 
                 if(_audioManager != null)
                 {
-                    _audioManager.PlayPowerUpSFX();
+                    _audioManager.PlayPowerUpSFX(_powerUpSound);
                 }
 
                 switch (_powerUpID)
@@ -55,7 +55,9 @@ public class PowerUps : MonoBehaviour
                     case 4:
                         player.LoadBombs();
                         break;
-
+                    case 5:
+                        player.DisableShip();
+                        break;
                     default:
                         Debug.Log("No Power Ups Were Found");
                     break;

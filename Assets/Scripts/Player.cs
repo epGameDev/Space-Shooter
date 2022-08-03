@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield, _thruster, _particleSYS;
     [SerializeField] private GameObject[] _engineDamage;
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _shieldHealth, _bombCount;
     private int _maxBombs = 8;
     private Vector3 _startPos;
-    private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false;
+    private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false, _isDisabled = false;
 
     //====================================//
     //========= Public Variables =========//
@@ -68,10 +68,14 @@ public class Player : MonoBehaviour
  
     void Update()
     {
-        PlayerMovement ();
-        FireLaser();
-        LaunchBomb();
-        SpeedBurst(12f);
+        if (!_isDisabled)
+        {
+            PlayerMovement();
+            FireLaser();
+            LaunchBomb();
+            SpeedBurst(12f);
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -298,6 +302,24 @@ public class Player : MonoBehaviour
     {
         _speedBurstDuration = 10;
         _uiManager.UpdatePlayerBoostSpeed(_speedBurstDuration);
+    }
+
+    public void DisableShip()
+    {
+        this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
+        _camera.ShakeCamera();
+        _thruster.SetActive(false);
+        _isDisabled = true;
+        StartCoroutine(DisableShipTimer());
+    }
+
+    private IEnumerator DisableShipTimer()
+    {
+        yield return new WaitForSeconds(5f);
+        _thruster.SetActive(true);
+        _isDisabled = false;
+        _particleSYS.SetActive(true);
+        StopCoroutine(DisableShipTimer());
     }
 
     public void PowerShields()
