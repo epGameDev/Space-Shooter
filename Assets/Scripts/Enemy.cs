@@ -94,8 +94,10 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Fire()
     {
-        yield return new WaitForSeconds(Random.Range(4f, 9f));
-        Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
+        while (!_hasDied){
+            yield return new WaitForSeconds(Random.Range(4f, 9f));
+            Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
+        }
     }
 
     public void EnableShield()
@@ -125,7 +127,7 @@ public class Enemy : MonoBehaviour
         {
             _explosionSound.Play();
         }
-        Destroy(this.gameObject, 150f * Time.deltaTime);
+        Destroy(this.gameObject, 100f * Time.deltaTime);
     }
 
 }

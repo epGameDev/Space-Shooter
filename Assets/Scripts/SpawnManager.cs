@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab, _enemyContainer;
-    [SerializeField] private GameObject[] _powerUps;
+
+    [SerializeField] private GameObject _enemyContainer;
+    [SerializeField] private GameObject[] _powerUps, _enemyPrefab;
     private bool _gameOver = false;
 
 
@@ -17,7 +18,7 @@ public class SpawnManager : MonoBehaviour
 
             yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));
             Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
-            GameObject newEnemy = Instantiate<GameObject>(_enemyPrefab, randomStartPosition, Quaternion.identity);
+            GameObject newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length)], randomStartPosition, Quaternion.identity);
             if (_enemyContainer != null)
             {
                 newEnemy.transform.parent = _enemyContainer.transform;

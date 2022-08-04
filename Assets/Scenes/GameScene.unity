@@ -567,17 +567,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7195acf194535ad498f4005d658c83ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
   _enemyContainer: {fileID: 1887422909}
   _powerUps:
   - {fileID: 2120198160370971777, guid: 5b3100f88528ee04caa0b1d1acff5fec, type: 3}
   - {fileID: 2416634744872094841, guid: 98bf0b680c7a20a438c6a2498693d877, type: 3}
   - {fileID: 3009596054048728444, guid: f4a73c0e37e38d8469a38178dea1919d, type: 3}
   - {fileID: 2120198160370971777, guid: 5b3100f88528ee04caa0b1d1acff5fec, type: 3}
-  - {fileID: 2416634744872094841, guid: 98bf0b680c7a20a438c6a2498693d877, type: 3}
+  - {fileID: 8829835888632859911, guid: c8f266e2320f9b7b0b7227d8ea0f3f94, type: 3}
   - {fileID: 3009596054048728444, guid: f4a73c0e37e38d8469a38178dea1919d, type: 3}
   - {fileID: 9222121236277434849, guid: ac7b4ddf2d34752269778f9f606afaf1, type: 3}
   - {fileID: 4501207309616436435, guid: e84197e1a45170c119fec5a2f80de9ab, type: 3}
+  - {fileID: 8829835888632859911, guid: c8f266e2320f9b7b0b7227d8ea0f3f94, type: 3}
+  _enemyPrefab:
+  - {fileID: 7121667710785253924, guid: aba5bf474fb72e7eb80a2f096b3966d2, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
+  - {fileID: 8446298057084748204, guid: 96431bc6986730541b668dc8c5a88239, type: 3}
 --- !u!4 &241328502
 Transform:
   m_ObjectHideFlags: 0
@@ -1176,8 +1187,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750868114}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.07, z: 0}
-  m_LocalScale: {x: 0.33, y: 0.95, z: 0}
+  m_LocalPosition: {x: 0, y: -2.65, z: 0}
+  m_LocalScale: {x: 0.33, y: 0.65, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1786235781}
