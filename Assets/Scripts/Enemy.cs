@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
     [SerializeField] private float _leftBounds, _rightBounds;
-    [SerializeField] private float _speed = 4, _health = 100, _randomSpawnLocation;
+    [SerializeField] private float _speed = 4, _fireRate, _directionChange, _health = 100, _randomSpawnLocation;
+    private float _timer;
     [SerializeField] private int _playerPoints;
     [SerializeField] GameObject _laserPrefab, _firePos, _shield;
     private bool _hasDied, _shieldActive;
@@ -28,7 +29,10 @@ public class Enemy : MonoBehaviour
         _target = GameObject.Find("Player").transform;
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
+        _directionChange = 0;
+        _fireRate = 0.9f;
         _hasDied = false;
+        _timer = 0;
 
         StartCoroutine(Fire());
     }
@@ -41,9 +45,21 @@ public class Enemy : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D other) {
+
         
         if (other.transform.tag == "laser") {
+
             Destroy(other.gameObject);
+
+            _directionChange = Random.Range(-1, 2);
+            StartCoroutine(DirectionChangeDistance());
+
+            if (_timer < Time.time)
+            {
+                _timer = Time.time + _fireRate;
+                Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
+            }
+
             if(!_shieldActive)
              {
                 _health -= 30;
@@ -84,11 +100,14 @@ public class Enemy : MonoBehaviour
     {
         _randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
 
-        transform.Translate( (Vector3.down * _speed) * Time.deltaTime);
+        transform.Translate( (new Vector3(_directionChange, -1f, 0f) * _speed) * Time.deltaTime);
+        transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, _leftBounds, _rightBounds), this.transform.position.y, 0);
         
         if(transform.position.y < -6f && !_hasDied) {
             transform.position = new Vector3(_randomSpawnLocation, 8, 0);
         }
+
+
     }
 
 
@@ -99,6 +118,13 @@ public class Enemy : MonoBehaviour
             Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
         }
     }
+
+    private IEnumerator DirectionChangeDistance()
+    {   
+        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        _directionChange = 0;
+    }
+
 
     public void EnableShield()
     {
