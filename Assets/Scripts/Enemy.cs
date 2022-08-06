@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
+    private CircleCollider2D _radar;
     [SerializeField] Transform _target;
 
     //=====================================//
@@ -26,6 +27,7 @@ public class Enemy : MonoBehaviour
         _anim = this.GetComponent<Animator>();
         _explosionSound = this.gameObject.GetComponent<AudioSource>();
         _collider = gameObject.GetComponent<EdgeCollider2D>();
+        _radar = gameObject.GetComponent<CircleCollider2D>();
         _target = GameObject.Find("Player").transform;
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
@@ -44,15 +46,14 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
 
         
         if (other.transform.tag == "laser") {
 
             Destroy(other.gameObject);
-
-            _directionChange = Random.Range(-1, 2);
-            StartCoroutine(DirectionChangeDistance());
+            ChangeDirection();
 
             if (_timer < Time.time)
             {
@@ -118,6 +119,13 @@ public class Enemy : MonoBehaviour
             Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
         }
     }
+
+    private void ChangeDirection()
+    {
+        _directionChange = Random.Range(-1, 2);
+        StartCoroutine(DirectionChangeDistance());
+    }
+
 
     private IEnumerator DirectionChangeDistance()
     {   

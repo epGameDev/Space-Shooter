@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
         while (!_gameOver && _enemyPrefab != null) 
         {
 
-            yield return new WaitForSeconds(Random.Range(1.0f, 4.0f));
+            yield return new WaitForSeconds(Random.Range(4.0f, 6.0f));
             Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length)], randomStartPosition, Quaternion.identity);
             if (_enemyContainer != null)

@@ -135,6 +135,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c4106e2ff32a847ae3b55b344082e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioManager: {fileID: 0}
+  _target: {fileID: 0}
+  _curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.51293945
+      inSlope: -1.4381694
+      outSlope: -1.4381694
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.54177463
+    - serializedVersion: 3
+      time: 0.08427097
+      value: 0.6062718
+      inSlope: 9.75156
+      outSlope: 9.75156
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.12208468
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.121663794
+      value: 1.0960175
+      inSlope: 10.394428
+      outSlope: 10.394428
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.15240696
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.15175954
+      value: 2.0018148
+      inSlope: 21.80479
+      outSlope: 21.80479
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.25515732
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _powerUpSound: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   _speed: 3
   _powerUpID: 2

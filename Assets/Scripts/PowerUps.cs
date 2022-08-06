@@ -4,14 +4,20 @@ public class PowerUps : MonoBehaviour
 {
     // private AudioSource _audio;
     [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private Transform _target;
+    [SerializeField] private AnimationCurve _curve;
 
     [SerializeField] AudioClip _powerUpSound;
     [SerializeField] private float _speed = 3f;
     [SerializeField] private int _powerUpID;
+    private bool _moveTowardsPlayer;
+
 
     private void Start() 
     {
-        _audioManager = AudioManager.Instance;    
+        _audioManager = AudioManager.Instance;
+        _target = GameObject.Find("Player").transform;
+        _moveTowardsPlayer = false;
     }
 
 
@@ -62,17 +68,32 @@ public class PowerUps : MonoBehaviour
                         Debug.Log("No Power Ups Were Found");
                     break;
                 }
-            } else {
+            } 
+            else 
+            {
                 Debug.Log("No Player Script Found");
             }
-
+            
             SelfDestruct();
         }
     }
 
     private void Movement ()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if(Input.GetKeyDown(KeyCode.C) && _powerUpID != 5)
+        {
+            _moveTowardsPlayer = true;
+        }
+        
+        if (_moveTowardsPlayer && _target != null)
+        {
+            this.transform.position = Vector2.Lerp(this.transform.position, _target.transform.position, _curve.Evaluate(_speed + 10) * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector2.down * _speed * Time.deltaTime);
+        }
+
     }
 
     private void SelfDestruct () 
