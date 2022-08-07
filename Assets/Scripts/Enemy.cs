@@ -120,7 +120,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void ChangeDirection()
+    public void ChangeDirection()
     {
         _directionChange = Random.Range(-1, 2);
         StartCoroutine(DirectionChangeDistance());
