@@ -23,8 +23,12 @@ public class EvadeAttack : MonoBehaviour
     {
         if (other2.transform.tag == "laser")
         {
-            Debug.Log("Change Parent");
             _parent.ChangeDirection();
+        }
+
+        if(other2.transform.tag == "PowerUp")
+        {
+            _parent.EnemyFire();
         }
     }
 }

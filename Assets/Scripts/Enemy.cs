@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
         _hasDied = false;
         _timer = 0;
 
-        StartCoroutine(Fire());
+        StartCoroutine(FireRoutine());
     }
 
 
@@ -111,8 +111,16 @@ public class Enemy : MonoBehaviour
 
     }
 
+    public void EnemyFire()
+    {
+        if (_timer < Time.time)
+        {
+            _timer = Time.time + _fireRate;
+            Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
+        }
+    }
 
-    private IEnumerator Fire()
+    private IEnumerator FireRoutine()
     {
         while (!_hasDied){
             yield return new WaitForSeconds(Random.Range(4f, 9f));

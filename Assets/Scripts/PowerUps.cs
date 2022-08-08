@@ -76,6 +76,12 @@ public class PowerUps : MonoBehaviour
             
             SelfDestruct();
         }
+
+        if (other.transform.tag == "EnemyFire")
+        {
+            Destroy(other.gameObject);
+            SelfDestruct();
+        }
     }
 
     private void Movement ()
