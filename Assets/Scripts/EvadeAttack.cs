@@ -6,17 +6,19 @@ public class EvadeAttack : MonoBehaviour
 {
 
     Enemy _parent;
+    [SerializeField] float _speed;
 
     // Start is called before the first frame update
     void Start()
     {
         _parent = gameObject.GetComponentInParent<Enemy>();
+        _speed = 18;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D other2) 
@@ -26,9 +28,9 @@ public class EvadeAttack : MonoBehaviour
             _parent.ChangeDirection();
         }
 
-        if(other2.transform.tag == "PowerUp")
+        if(other2.transform.tag == "PowerUp" && other2.transform.position.y < 2)
         {
-            _parent.EnemyFire();
+            _parent.transform.Translate( Vector3.MoveTowards(_parent.transform.position, other2.transform.position, _speed) * Time.deltaTime);
         }
     }
 }

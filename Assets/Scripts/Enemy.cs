@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
+    private Player _player;
     private UIManager _uiManager;
     private Animator _anim;
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
-    private CircleCollider2D _radar;
-    [SerializeField] Transform _target;
+    [SerializeField] private AnimationCurve _curve;
+
 
     //=====================================//
     //========= Private Variables =========//
-    [SerializeField] private float _leftBounds, _rightBounds;
+    [SerializeField] private float _leftBounds, _rightBounds, distance;
     [SerializeField] private float _speed = 4, _fireRate, _directionChange, _health = 100, _randomSpawnLocation;
     private float _timer;
     [SerializeField] private int _playerPoints;
@@ -23,12 +23,11 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _uiManager = UIManager.Instance;
         _anim = this.GetComponent<Animator>();
         _explosionSound = this.gameObject.GetComponent<AudioSource>();
         _collider = gameObject.GetComponent<EdgeCollider2D>();
-        _radar = gameObject.GetComponent<CircleCollider2D>();
-        _target = GameObject.Find("Player").transform;
         _leftBounds = -9.1f;
         _rightBounds = 9.1f;
         _directionChange = 0;
@@ -55,11 +54,7 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             ChangeDirection();
 
-            if (_timer < Time.time)
-            {
-                _timer = Time.time + _fireRate;
-                Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
-            }
+            EnemyFire();
 
             if(!_shieldActive)
              {
@@ -72,23 +67,21 @@ public class Enemy : MonoBehaviour
              }
         }
 
+
         if (_health <= 0 ) 
-        {
-            
+        {   
             SelfDestruct(true);
         }
 
+
         if (other.transform.name == "Player" )
         {
-            Player player = other.GetComponent<Player>();
-
-            if(player != null) 
+            if(_player != null) 
             {
-                player.Damage();
+                _player.Damage();
             }
 
-            SelfDestruct(false);
-            
+            SelfDestruct(false); 
         }
         
     }
@@ -101,7 +94,16 @@ public class Enemy : MonoBehaviour
     {
         _randomSpawnLocation = Random.Range(_leftBounds, _rightBounds);
 
-        transform.Translate( (new Vector3(_directionChange, -1f, 0f) * _speed) * Time.deltaTime);
+        if (_health <= 40)
+        {
+            ChargePlayer(6f);
+        }
+        else
+        {
+            transform.Translate( (new Vector3(_directionChange, -1f, 0f) * _speed) * Time.deltaTime);
+        }
+
+
         transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, _leftBounds, _rightBounds), this.transform.position.y, 0);
         
         if(transform.position.y < -6f && !_hasDied) {
@@ -110,6 +112,8 @@ public class Enemy : MonoBehaviour
 
 
     }
+
+
 
     public void EnemyFire()
     {
@@ -127,6 +131,22 @@ public class Enemy : MonoBehaviour
             Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
         }
     }
+
+    private void ChargePlayer(float attackRadius)
+    {
+        distance = Vector3.Distance(this.gameObject.transform.position, _player.gameObject.transform.position);
+
+        if (distance < attackRadius)
+        {
+            this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(_player.transform.position.x, this.transform.position.y - 10f, 0f), _curve.Evaluate(_speed + 10) * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate( (new Vector3(_directionChange, -1f, 0f) * _speed) * Time.deltaTime);
+        }
+        
+    }
+
 
     public void ChangeDirection()
     {
