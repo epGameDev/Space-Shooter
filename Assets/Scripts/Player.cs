@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         _leftBounds = -9.4f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
-        _startPos = new Vector3(0,0,0);
+        _startPos = new Vector3(0,-1.5f,0);
         _coolDown = 10f;
         _shotLimit = 30f;
         _shotCount = 0f;
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "EnemyFire")
         {
-            Damage();
+            TakeDamage();
             Destroy(other.gameObject);
         }
     }
@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
     // ==================================== //
     // ============== Health ============== //
 
-    public void Damage()
+    public void TakeDamage()
     {
         
 

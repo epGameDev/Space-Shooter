@@ -1,3 +1,5 @@
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI;
 
     [SerializeField] private GameManager _gameManager;
-    [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText;
+    [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText, _waveText;
     [SerializeField] Text _playerLivesUI, _scoreText;
     [SerializeField] private GameObject _livesUI;
     [SerializeField] Text[] _ammoCount;
@@ -28,14 +30,11 @@ public class UIManager : MonoBehaviour
             Debug.LogError("UIManager::GameManager is null");
         }
 
-        if(_gameOverText != null && _restartGameText != null && _overheatWarningText != null)
-        {
-            _gameOverText.gameObject.SetActive(false);
-            _restartGameText.gameObject.SetActive(false);
-            _overheatWarningText.gameObject.SetActive(false);
-        } else{
-            Debug.LogError("UIManager::Text objects are null");
-        }
+        if (_gameOverText != null) { _gameOverText.gameObject.SetActive(false); }
+        if (_restartGameText != null) { _restartGameText.gameObject.SetActive(false); }
+        if (_overheatWarningText != null) { _overheatWarningText.gameObject.SetActive(false); }
+        if (_waveText != null) { _waveText.gameObject.SetActive(false); }
+
 
         _totalScore = 0;
         _scoreText.text = _totalScore.ToString();
@@ -48,10 +47,11 @@ public class UIManager : MonoBehaviour
     // =================================+====== //
     // ============== UI Updates ============== //
 
-    public void GetPlayerScore (int _score) 
+    public void DisplayPlayerScore (int _score) 
     {
         _totalScore += _score;
         _scoreText.text = _totalScore.ToString();
+        _gameManager.SetWave(_totalScore);
     }
 
     public void UpdatePlayerHealth (int lives)
@@ -115,6 +115,28 @@ public class UIManager : MonoBehaviour
         UpdatePlayerHealth(0);
         _gameOverText.gameObject.SetActive(true);
         _restartGameText.gameObject.SetActive(true);
+    }
+
+    public void DisplayCurrentWave(bool isActive, string currentWave = "")
+    {
+        _waveText.text = "Wave " + currentWave;
+
+        if (isActive)
+        {
+            _waveText.gameObject.SetActive(true);
+        }
+        else
+        {
+            _waveText.gameObject.SetActive(false);
+        }
+
+        StartCoroutine(TimedDisplay());
+    }
+
+    private IEnumerator TimedDisplay()
+    {
+        yield return new WaitForSeconds(10f);
+        DisplayCurrentWave(false);
     }
 
 }

@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
         {
             if(_player != null) 
             {
-                _player.Damage();
+                _player.TakeDamage();
             }
 
             SelfDestruct(false); 
@@ -112,8 +112,6 @@ public class Enemy : MonoBehaviour
 
 
     }
-
-
 
     public void EnemyFire()
     {
@@ -177,7 +175,7 @@ public class Enemy : MonoBehaviour
     {
         if (canGetPoints)
         {
-            _uiManager.GetPlayerScore(_playerPoints);
+            _uiManager.DisplayPlayerScore(_playerPoints);
         }
 
         _hasDied = true;

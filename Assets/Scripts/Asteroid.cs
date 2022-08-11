@@ -39,7 +39,7 @@ public class Asteroid : MonoBehaviour
             if(_health <= 0)
             {
                 _collider.enabled = false;
-                _gameManager.StartGame();
+                _gameManager.SetWave(0); //Wave determined by the player's points.
                 _hasExploded = true;
                 Destroy(this.gameObject, 10f * Time.deltaTime);
             }

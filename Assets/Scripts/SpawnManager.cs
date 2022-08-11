@@ -6,17 +6,20 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private GameObject[] _powerUps, _enemyPrefab;
-    private bool _gameOver = false;
+    private bool _canSpawn = true;
 
 
-    IEnumerator EnemySpawnRoutine () 
+    // ====================================== //
+    // ============== Spawners ============== //
+
+    IEnumerator EnemySpawnRoutine (float minTime, float maxTime) 
     {
 
         
-        while (!_gameOver && _enemyPrefab != null) 
+        while (_canSpawn && _enemyPrefab != null) 
         {
+            yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 4, 6
 
-            yield return new WaitForSeconds(Random.Range(4.0f, 6.0f));
             Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length)], randomStartPosition, Quaternion.identity);
             if (_enemyContainer != null)
@@ -27,30 +30,40 @@ public class SpawnManager : MonoBehaviour
             newEnemy.GetComponent<Enemy>().EnableShield();
         }
 
-        StopCoroutine(EnemySpawnRoutine());
+        StopCoroutine(EnemySpawnRoutine(minTime, maxTime));
 
     }
 
-
-    private IEnumerator PowerUpSpawnRoutine ()
+    private IEnumerator PowerUpSpawnRoutine (float minTime, float maxTime)
     {
         Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
 
-        while (!_gameOver && _powerUps != null) 
+        while (_canSpawn && _powerUps != null) 
         {
-            yield return new WaitForSeconds(Random.Range(10f, 20f));
+            yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 10, 20
             Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
 
         }
         
 
-        StopCoroutine(PowerUpSpawnRoutine());
+        StopCoroutine(PowerUpSpawnRoutine(minTime, maxTime));
 
     }
 
-    public void StopSpawning() {
-        _gameOver = true;
+    // =============================================== //
+    // ============== Spawn Controllers ============== //
 
+    public void StartGame(float minEnemy, float maxEnemy, float minPowerUp, float maxPowerUp)
+    {
+        StopSpawning(); // Used to delete all enemies and stop coroutines before starting back up.
+        _canSpawn = true;
+        StartCoroutine(EnemySpawnRoutine(minEnemy, maxEnemy));
+        StartCoroutine(PowerUpSpawnRoutine(minPowerUp, maxPowerUp));
+    }
+
+    public void StopSpawning() 
+    {
+        _canSpawn = false;
         StopAllCoroutines();
 
         foreach (Transform child in _enemyContainer.transform)
@@ -58,11 +71,5 @@ public class SpawnManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-    }
-
-    public void StartGame()
-    {
-        StartCoroutine(EnemySpawnRoutine());
-        StartCoroutine(PowerUpSpawnRoutine());
     }
 }
