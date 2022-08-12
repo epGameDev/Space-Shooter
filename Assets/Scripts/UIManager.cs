@@ -117,18 +117,10 @@ public class UIManager : MonoBehaviour
         _restartGameText.gameObject.SetActive(true);
     }
 
-    public void DisplayCurrentWave(bool isActive, string currentWave = "")
+    public void DisplayCurrentWave(string currentWave)
     {
+        _waveText.gameObject.SetActive(true);
         _waveText.text = "Wave " + currentWave;
-
-        if (isActive)
-        {
-            _waveText.gameObject.SetActive(true);
-        }
-        else
-        {
-            _waveText.gameObject.SetActive(false);
-        }
 
         StartCoroutine(TimedDisplay());
     }
@@ -136,7 +128,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator TimedDisplay()
     {
         yield return new WaitForSeconds(10f);
-        DisplayCurrentWave(false);
+        _waveText.gameObject.SetActive(false);
     }
 
 }

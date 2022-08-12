@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     //========= Private Variables =========//
     [SerializeField] private SpawnManager _spawnManager;
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] Player _player;
     private int _nextWave;
 
     //====================================//
@@ -32,7 +33,8 @@ public class GameManager : MonoBehaviour
     {
         _uiManager.GetComponent<UIManager>();
         _spawnManager.GetComponent<SpawnManager>();
-        if(_spawnManager == null || _uiManager == null)
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        if(_spawnManager == null || _uiManager == null || _player == null)
         {
             Debug.LogError("GameManager::UI/SpawnManager is null");
         }
@@ -75,20 +77,28 @@ public class GameManager : MonoBehaviour
         switch (wave)
         {
             case "One":
-                _spawnManager.StartGame(4f, 6f, 10f, 20f);
-                _uiManager.DisplayCurrentWave(true, wave);
+                _spawnManager.StartGame(5f, 10f, 10f, 15f);
+                _uiManager.DisplayCurrentWave(wave);
                 break;
             case "Two":
-                _spawnManager.StartGame(3f, 5f, 10f, 15f);
-                _uiManager.DisplayCurrentWave(true, wave);
+                _spawnManager.StartGame(4f, 10f, 8f, 10f);
+                _uiManager.DisplayCurrentWave(wave);
+                _player.Heal();
                 break;
             case "Three":
-                _spawnManager.StartGame(3f, 5f, 10f, 13f);
-                _uiManager.DisplayCurrentWave(true, wave);
+                _spawnManager.StartGame(4f, 5f, 7f, 10f);
+                _uiManager.DisplayCurrentWave(wave);
+                _player.Heal();
                 break;
             case "Four":
-                _spawnManager.StartGame(2f, 4f, 7f, 11f);
-                _uiManager.DisplayCurrentWave(true, wave);
+                _spawnManager.StartGame(2f, 4f, 6f, 8f);
+                _uiManager.DisplayCurrentWave(wave);
+                _player.Heal();
+                break;
+            case "Five":
+                _spawnManager.StartGame(2f, 3f, 5f, 6f);
+                _uiManager.DisplayCurrentWave(wave);
+                _player.Heal();
                 break;
             default:
                 Debug.LogError("GameManager:: Error on StartGame switch.");
@@ -99,7 +109,7 @@ public class GameManager : MonoBehaviour
     public void SetWave (int playerPoints)
     {
 
-        if(playerPoints < 50) 
+        if(playerPoints < 150) 
         { 
             if (_nextWave == 1) 
             {   
@@ -107,7 +117,7 @@ public class GameManager : MonoBehaviour
                 _nextWave++; // Next wave is 2
             }
         }
-        if (playerPoints > 50 && playerPoints < 300) 
+        else if (playerPoints >= 150 && playerPoints < 300) 
         { 
             if (_nextWave == 2) 
             {
@@ -131,7 +141,7 @@ public class GameManager : MonoBehaviour
                 _nextWave++; // Next wave is 5
             }
         }
-        if(playerPoints >= 1000 && playerPoints < 1500)
+        else if(playerPoints >= 1000 && playerPoints < 1500)
         {
             if (_nextWave == 5) 
             {
