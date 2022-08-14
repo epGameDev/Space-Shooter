@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Player _player;
+    private Player _player ;
     private UIManager _uiManager;
     private Animator _anim;
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
+
     [SerializeField] private AnimationCurve _curve;
 
 
@@ -15,10 +16,10 @@ public class Enemy : MonoBehaviour
     //========= Private Variables =========//
     [SerializeField] private float _leftBounds, _rightBounds, distance;
     [SerializeField] private float _speed = 4, _fireRate, _directionChange, _health = 100, _randomSpawnLocation;
-    private float _timer;
+    private float _timer, _altShotTimer, _distanceToEnemy = 0;
     [SerializeField] private int _playerPoints;
-    [SerializeField] GameObject _laserPrefab, _firePos, _shield;
-    private bool _hasDied, _shieldActive;
+    [SerializeField] GameObject _laserPrefab, _firePos, _backFirePos, _altFire, _shield;
+    private bool _hasDied, _shieldActive, _altShotEnabled = false;
 
 
     void Start()
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour
         _fireRate = 0.9f;
         _hasDied = false;
         _timer = 0;
+        _altShotTimer = 0;
 
         StartCoroutine(FireRoutine());
     }
@@ -42,6 +44,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         EnemyMovement();
+        if (_altShotEnabled) 
+        {
+            EnableBackShot();
+        }
     }
 
 
@@ -119,6 +125,7 @@ public class Enemy : MonoBehaviour
         {
             _timer = Time.time + _fireRate;
             Instantiate(_laserPrefab, _firePos.transform.position, Quaternion.identity);
+            
         }
     }
 
@@ -134,7 +141,7 @@ public class Enemy : MonoBehaviour
     {
         distance = Vector3.Distance(this.gameObject.transform.position, _player.gameObject.transform.position);
 
-        if (distance < attackRadius)
+        if (distance < attackRadius && !_hasDied) 
         {
             this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(_player.transform.position.x, this.transform.position.y - 10f, 0f), _curve.Evaluate(_speed + 10) * Time.deltaTime);
         }
@@ -160,13 +167,40 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void EnableShield()
+    public void EnablePowerUp()
     {
         float randomNumber = Mathf.Round(Random.Range(0, 10));
+
         if (randomNumber == 4)
         {
-            _shield.SetActive (true);
-            _shieldActive = true;
+            EnableShields();
+        }
+        else if (randomNumber == 6)
+        {
+            _altShotEnabled = true;
+        }
+    }
+
+    private void EnableShields()
+    {
+        _shield.SetActive (true);
+        _shieldActive = true;
+    }
+
+    private void EnableBackShot()
+    {
+
+        if (this.transform.position.y < _player.transform.position.y && !_hasDied) 
+        {
+            _distanceToEnemy = Mathf.Abs(this.transform.position.x - _player.transform.position.x);
+
+            if (_altShotTimer <= Time.time && _distanceToEnemy < 0.5)
+            {
+                _altShotTimer = Time.time + _fireRate + 6f;
+                GameObject backShot = Instantiate(_altFire, _backFirePos.transform.position, Quaternion.identity);
+                backShot.GetComponent<PowerUps>().ChangeSpeed(-3);
+            }
+
         }
     }
 
@@ -179,6 +213,7 @@ public class Enemy : MonoBehaviour
         }
 
         _hasDied = true;
+        _altShotEnabled = false;
         _collider.enabled = false;
         _shield.SetActive(false);
         StopAllCoroutines();

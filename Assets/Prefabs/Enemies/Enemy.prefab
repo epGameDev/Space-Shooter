@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2753018266617575831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7351654434618520630}
+  m_Layer: 0
+  m_Name: BackFirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7351654434618520630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2753018266617575831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6766219066127137233}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8446298057084748204
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +66,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4071929630272817691}
+  - {fileID: 7351654434618520630}
   - {fileID: 233700118822755111}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -307,6 +339,8 @@ MonoBehaviour:
   _playerPoints: 10
   _laserPrefab: {fileID: 4746721641933891356, guid: 7e13a40b7e586d84aa78ceb2e11bed50, type: 3}
   _firePos: {fileID: 8914887727394676847}
+  _backFirePos: {fileID: 2753018266617575831}
+  _altFire: {fileID: 8829835888632859911, guid: c8f266e2320f9b7b0b7227d8ea0f3f94, type: 3}
   _shield: {fileID: 8812146018993249549}
 --- !u!1 &8812146018993249549
 GameObject:
@@ -339,7 +373,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6766219066127137233}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3804541226703195895
 SpriteRenderer:

@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
                 newEnemy.transform.parent = _enemyContainer.transform;
             }
 
-            newEnemy.GetComponent<Enemy>().EnableShield();
+            newEnemy.GetComponent<Enemy>().EnablePowerUp();
         }
 
         StopCoroutine(EnemySpawnRoutine(minTime, maxTime));
@@ -42,7 +42,6 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 10, 20
             Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
-
         }
         
 

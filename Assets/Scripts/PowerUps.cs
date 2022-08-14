@@ -25,7 +25,7 @@ public class PowerUps : MonoBehaviour
     {
         Movement();
 
-        if (transform.position.y < -7f) {
+        if (this.transform.position.y < -7f || this.transform.position.y > 12) {
             SelfDestruct();
         }
     }
@@ -77,11 +77,17 @@ public class PowerUps : MonoBehaviour
             SelfDestruct();
         }
 
-        if (other.transform.tag == "EnemyFire")
+        if (other.transform.tag == "EnemyFire" && _powerUpID != 5)
         {
             Destroy(other.gameObject);
             SelfDestruct();
         }
+        else if (other.gameObject.tag == "laser" && _powerUpID == 5)
+        {
+            Destroy(other.gameObject);
+            SelfDestruct();
+        }
+
     }
 
     private void Movement ()
@@ -100,6 +106,11 @@ public class PowerUps : MonoBehaviour
             transform.Translate(Vector2.down * _speed * Time.deltaTime);
         }
 
+    }
+
+    public void ChangeSpeed(float speed)
+    {
+        _speed = speed;
     }
 
     private void SelfDestruct () 
