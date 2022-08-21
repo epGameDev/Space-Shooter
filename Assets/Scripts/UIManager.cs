@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
     {
         _totalScore += _score;
         _scoreText.text = _totalScore.ToString();
-        _gameManager.SetWave(_totalScore);
+        //_gameManager.SetWave(_totalScore); // TODO: Bug: Any Enemy killed will start the game.
     }
 
     public void UpdatePlayerHealth (int lives)

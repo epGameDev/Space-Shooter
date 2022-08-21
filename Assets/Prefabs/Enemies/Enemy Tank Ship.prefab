@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 7121667710785253934}
   - component: {fileID: 7121667710785253930}
   m_Layer: 0
-  m_Name: '[GDHQ]-SpaceFighter-22-Center'
+  m_Name: Enemy Tank Ship
   m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -216,6 +216,7 @@ public class Enemy : MonoBehaviour
         _altShotEnabled = false;
         _collider.enabled = false;
         _shield.SetActive(false);
+        _speed = 3;
         StopAllCoroutines();
         _anim.SetTrigger("OnEnemyDeath");
         if (_explosionSound != null)

@@ -88,6 +88,8 @@ public class PowerUps : MonoBehaviour
             SelfDestruct();
         }
 
+        // TODO: Fix power up destroy on laser.
+
     }
 
     private void Movement ()
