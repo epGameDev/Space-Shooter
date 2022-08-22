@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private GameObject _enemyContainer, _newEnemy, _bossPrefab;
     [SerializeField] private GameObject[] _powerUps, _enemyPrefab;
+    [SerializeField] float _leftBounds = -11f, _rightBounds = 11f;
     private bool _canSpawnEnemy = true, _canSpawnPowerUp = true;
     
 
@@ -21,7 +22,7 @@ public class SpawnManager : MonoBehaviour
         while (_canSpawnEnemy && _enemyPrefab != null) 
         {
             yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 4, 6
-            Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
+            Vector3 randomStartPosition = new Vector3(Random.Range(_leftBounds, _rightBounds), 8, 0);
             if (_enemyContainer.transform.childCount >= 4 && isBossBattle) { _canSpawnEnemy = false; }
             
 

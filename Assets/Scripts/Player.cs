@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     public int lives { get; private set; }
 
+    //TODO: Fix the upper and lower bounds on all game objects since the camera mode change.
 
     void Start()
     {
@@ -39,8 +40,8 @@ public class Player : MonoBehaviour
 
         _audio = this.gameObject.GetComponent<AudioSource>();
 
-        _rightBounds = 9.4f;
-        _leftBounds = -9.4f;
+        _rightBounds = 11.58f;
+        _leftBounds = -11.58f;
         _upperBounds = 5.7f;
         _lowerBounds = -3.8f;
         _startPos = new Vector3(0,-1.5f,0);
@@ -84,6 +85,11 @@ public class Player : MonoBehaviour
         {
             TakeDamage();
             Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "PulseCanon")
+        {
+            TakeDamage();
         }
     }
 

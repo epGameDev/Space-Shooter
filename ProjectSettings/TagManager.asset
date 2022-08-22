@@ -10,6 +10,7 @@ TagManager:
   - UI
   - EnemyFire
   - Bomb
+  - PulseCanon
   layers:
   - Default
   - TransparentFX

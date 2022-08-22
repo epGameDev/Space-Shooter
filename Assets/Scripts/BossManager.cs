@@ -12,7 +12,7 @@ public class BossManager : MonoBehaviour
     private EdgeCollider2D _collider;
 
     [SerializeField] private AnimationCurve _xMovementCurve, _aggressivLungeCurve;
-    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _pulseCanonPos, _playerTarget;
+    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _pulseCanon, _playerTarget;
     private Vector3 _startPos, _centerAttackTarget;
 
     [SerializeField] private float _leftBounds, _rightBounds, _resetLocationY, _spawnLocationY, _xMovementDirection, _yMovementDirection, distance;
@@ -24,7 +24,8 @@ public class BossManager : MonoBehaviour
     // TODO: Create a timer after all enemies have been instantiated and bring back in the boss
     // TODO: After boss is back in the game, lower the amount of powerups dropped. 
     // TODO: Create boss health bar.
-    // TODO: Find Pulse Canaon Attack
+    // TODO: Add 1 enemy at a time and one powerup per 10 seconds in regular mode.
+    // TODO: Grow the enemy pulse canon collider over time so that the player isn't instantly damaged. 
 
     
     void Start()
@@ -107,10 +108,9 @@ public class BossManager : MonoBehaviour
                 if (!_stateRoutineLoaded)
                 {
                     StartCoroutine(StateTimer(5f, 10f));
-                    StartCoroutine(WaveMovementRoutine());
-                    StartCoroutine(FireRoutine());
+                    //// StartCoroutine(WaveMovementRoutine());
                 }
-                NormalAttackState();
+                PulseCanonState();
                 break;
 
             case 4: //========================================== Swarm State
@@ -172,6 +172,7 @@ public class BossManager : MonoBehaviour
     private void BackToStart()
     {
         _startPos = new Vector3(this.transform.position.x, 5.05f, 0);
+        _pulseCanon.SetActive(false);
 
         if (this.transform.position != _startPos)
         {
@@ -243,6 +244,25 @@ public class BossManager : MonoBehaviour
             _state = 0;
         }
 
+    }
+
+    private void PulseCanonState()
+    {
+        // if (!_pulseCanon.activeInHierarchy)
+        // {
+            _pulseCanon.SetActive(true);
+        // }
+        
+        if (this.transform.position.x == _rightBounds) 
+        { 
+            _xMovementDirection = -1f;
+        }
+        else if (this.transform.position.x == _leftBounds)
+        {
+            _xMovementDirection = 1f;
+        }
+
+        BossMovement(_xMovementDirection, 0);
     }
     
 

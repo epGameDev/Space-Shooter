@@ -29,8 +29,8 @@ public class Enemy : MonoBehaviour
         _anim = this.GetComponent<Animator>();
         _explosionSound = this.gameObject.GetComponent<AudioSource>();
         _collider = gameObject.GetComponent<EdgeCollider2D>();
-        _leftBounds = -9.1f;
-        _rightBounds = 9.1f;
+        _leftBounds = -11.58f;
+        _rightBounds = 11.58f;
         _directionChange = 0;
         _fireRate = 0.9f;
         _hasDied = false;
