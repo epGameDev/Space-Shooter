@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - UI
   - EnemyFire
+  - Bomb
   layers:
   - Default
   - TransparentFX

@@ -21,6 +21,10 @@ public class BossManager : MonoBehaviour
     [SerializeField] private int _state, _nextState;
     [SerializeField] private bool _gameOver, _stateRoutineLoaded;
 
+    // TODO: Create a timer after all enemies have been instantiated and bring back in the boss
+    // TODO: After boss is back in the game, lower the amount of powerups dropped. 
+    // TODO: Create boss health bar.
+    // TODO: Find Pulse Canaon Attack
 
     
     void Start()
@@ -52,22 +56,29 @@ public class BossManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Player")
+
+        switch (other.gameObject.tag)
         {
-            _player.TakeDamage();
-            _health -= 30;
+            case "Player":
+                _player.TakeDamage();
+                _health -= 30;
+                break;
+            case "laser":
+                _health -= 30;
+                Destroy(other.gameObject);
+                break;
+            case "Bomb":
+                _health -= 200;
+                break;
+            
+            default:
+                if (_health <= 0)
+                {
+                    Destroy(this.gameObject);
+                }
+                break;
         }
 
-        if (other.gameObject.tag == "laser")
-        {
-            _health -= 30;
-            Destroy(other.gameObject);
-        }
-
-        if (_health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
     }
 
     private void AttackState(int attackState)
