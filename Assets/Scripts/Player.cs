@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
 
     public int lives { get; private set; }
 
-    //TODO: Fix the upper and lower bounds on all game objects since the camera mode change.
 
     void Start()
     {
@@ -42,8 +41,8 @@ public class Player : MonoBehaviour
 
         _rightBounds = 11.58f;
         _leftBounds = -11.58f;
-        _upperBounds = 5.7f;
-        _lowerBounds = -3.8f;
+        _upperBounds = 6.85f;
+        _lowerBounds = -5f;
         _startPos = new Vector3(0,-1.5f,0);
         _coolDown = 10f;
         _shotLimit = 30f;
@@ -54,7 +53,7 @@ public class Player : MonoBehaviour
         _speed = 8f;
 
         // Set the start position and fire rate
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = _startPos;
         _timeSinceFired = Time.time + _fireRate;
        
        _engineDamage[0].SetActive(false);

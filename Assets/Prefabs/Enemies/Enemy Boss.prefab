@@ -292,6 +292,7 @@ MonoBehaviour:
   _regenerateRate: 0.1
   _state: 0
   _nextState: 1
+  _pulseCanonColiderSize: 0
   _gameOver: 0
   _stateRoutineLoaded: 0
 --- !u!1 &9055730733045203421
@@ -546,7 +547,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.17626677, y: 42.53222}
-  m_Size: {x: 3.8301153, y: 102.44175}
+  m_Size: {x: 3.8301153, y: 102}
   m_Direction: 0
 --- !u!4 &4562524791593240942 stripped
 Transform:

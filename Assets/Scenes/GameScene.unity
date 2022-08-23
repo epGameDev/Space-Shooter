@@ -1329,10 +1329,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1348598435769292820, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: m_Size.y
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348598435769292820, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348598435769292820, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: m_Offset.y
+      value: 42.53222
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432532454302182874, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: CollisionModule.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432532454302182874, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432532454302182874, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4528781131079280018, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: LifeTime
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558241987296156738, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559129781194444774, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: _speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: _state
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
       propertyPath: _playerTarget
       value: 
       objectReference: {fileID: 1786235778}
+    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+      propertyPath: _pulseCanonColiderSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8387311868858432248, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
       propertyPath: m_Name
       value: Enemy Boss
@@ -1605,6 +1653,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1244037563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4558241987296156738, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
+  m_PrefabInstance: {fileID: 949895909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1244037569
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244037563}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d460e726650ecc302966957ed34b9255, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1312774175 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1312774175, guid: 6179dfcab39b1298ca270bb432324a4f, type: 3}
@@ -2270,8 +2343,8 @@ MonoBehaviour:
   _engineDamage:
   - {fileID: 1597799986}
   - {fileID: 1653175340}
-  _leftBounds: -9.4
-  _rightBounds: 9.4
+  _leftBounds: -11.58
+  _rightBounds: 11.58
   _upperBounds: 5.7
   _lowerBounds: -3.8
   _speed: 0

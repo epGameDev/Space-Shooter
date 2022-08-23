@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour
 
         transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, _leftBounds, _rightBounds), this.transform.position.y, 0);
         
-        if(transform.position.y < -6f && !_hasDied) {
+        if(transform.position.y < -8f && !_hasDied) {
             transform.position = new Vector3(_randomSpawnLocation, 8, 0);
         }
 

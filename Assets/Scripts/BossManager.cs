@@ -18,14 +18,17 @@ public class BossManager : MonoBehaviour
     [SerializeField] private float _leftBounds, _rightBounds, _resetLocationY, _spawnLocationY, _xMovementDirection, _yMovementDirection, distance;
     [SerializeField] private float  _speed, _fireRate, _shotInterval, _altShotInterval, _distanceToEnemy;
     [SerializeField] float _health, _regenerateRate;
-    [SerializeField] private int _state, _nextState;
+    [SerializeField] private int _state, _nextState, _pulseCanonColiderSize;
     [SerializeField] private bool _gameOver, _stateRoutineLoaded;
 
     // TODO: Create a timer after all enemies have been instantiated and bring back in the boss
     // TODO: After boss is back in the game, lower the amount of powerups dropped. 
     // TODO: Create boss health bar.
     // TODO: Add 1 enemy at a time and one powerup per 10 seconds in regular mode.
-    // TODO: Grow the enemy pulse canon collider over time so that the player isn't instantly damaged. 
+    // TODO: Mark a random number of enemies in the swarm faze and a counter rather than child count. Or both.
+    // TODO: Have pulse collider offset follow the beam down for 3 seconds.
+    // TODO: [ ] Add an entry Animation
+    // TODO: [ ] Add Death Animation
 
     
     void Start()
@@ -42,12 +45,15 @@ public class BossManager : MonoBehaviour
         _xMovementDirection = _xMovementDirection == 0 ? 1: -1;
         _centerAttackTarget = new Vector3(0,-2.72f, 0);
         _startPos = new Vector3(this.transform.position.x, 5.05f, 0);
+        _leftBounds = -10.2f;
+        _rightBounds = 10.2f;
+        _pulseCanonColiderSize = 1;
         _gameOver = false;
         _stateRoutineLoaded = false;
         _health = 5000;
 
         _state = 0;
-        _nextState = _state;
+        _nextState = _state; 
     }
 
     void Update()
@@ -107,8 +113,7 @@ public class BossManager : MonoBehaviour
             case 3: //========================================== Pulse Cannon State
                 if (!_stateRoutineLoaded)
                 {
-                    StartCoroutine(StateTimer(5f, 10f));
-                    //// StartCoroutine(WaveMovementRoutine());
+                    StartCoroutine(StateTimer(10f, 10f));
                 }
                 PulseCanonState();
                 break;
@@ -248,10 +253,11 @@ public class BossManager : MonoBehaviour
 
     private void PulseCanonState()
     {
-        // if (!_pulseCanon.activeInHierarchy)
-        // {
-            _pulseCanon.SetActive(true);
-        // }
+
+        _pulseCanon.SetActive(true);
+        _pulseCanon.transform.GetChild(2).gameObject.SetActive(true);
+        _pulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
+
         
         if (this.transform.position.x == _rightBounds) 
         { 
@@ -264,6 +270,5 @@ public class BossManager : MonoBehaviour
 
         BossMovement(_xMovementDirection, 0);
     }
-    
-
+ 
 }
