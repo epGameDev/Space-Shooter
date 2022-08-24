@@ -324,7 +324,7 @@ public class Player : MonoBehaviour
         _thruster.SetActive(true);
         _isDisabled = false;
         _particleSYS.SetActive(true);
-        StopCoroutine(DisableShipTimer());
+        // StopCoroutine(DisableShipTimer()); // ! Bug: [ ] When user gets hit multiple times, 5 second delay doesn't mater.
     }
 
     public void PowerShields()

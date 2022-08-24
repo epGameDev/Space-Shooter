@@ -77,7 +77,7 @@ public class PowerUps : MonoBehaviour
             SelfDestruct();
         }
 
-        if (other.transform.tag == "EnemyFire" && _powerUpID != 5)
+        if (other.transform.tag == "EnemyFire" && _powerUpID != 5) // Destroys all but the Disable Ship power up
         {
             Destroy(other.gameObject);
             SelfDestruct();
@@ -88,7 +88,11 @@ public class PowerUps : MonoBehaviour
             SelfDestruct();
         }
 
-        // TODO: Fix power up destroy on laser.
+        if (other.gameObject.tag == "PulseCanon")
+        {
+            SelfDestruct();
+        }
+
 
     }
 
