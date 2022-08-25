@@ -186,6 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd7fbf6fb6e2bf9d93e327ad891de4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _uiManager: {fileID: 0}
+  _spawnManager: {fileID: 0}
   _xMovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -516,7 +519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1095218182013233105, guid: 25a0f1d2e0339daa49ee76ccae8e813d, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: PulseCanon
       objectReference: {fileID: 0}
     - target: {fileID: 1095684197741395175, guid: 25a0f1d2e0339daa49ee76ccae8e813d, type: 3}
       propertyPath: m_TagString

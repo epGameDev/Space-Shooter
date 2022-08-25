@@ -7,7 +7,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance {get; private set;}
-    [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI;
+    [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI, _bossHealthUI;
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText, _waveText;
@@ -103,6 +103,20 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoCount(int ammoID, int ammoAount, int maxAmmo)
     {
         _ammoCount[ammoID].text = (ammoAount.ToString() + " / " + maxAmmo);
+    }
+
+    public void UpdateBossHealth(float health, bool isBossBattle)
+    {
+        if (isBossBattle)
+        {
+            // Debug.Log("in UI");
+            _bossHealthUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            _bossHealthUI.gameObject.SetActive(false);
+        }
+        _bossHealthUI.value = health;
     }
 
 

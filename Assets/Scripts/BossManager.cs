@@ -5,9 +5,9 @@ using UnityEngine;
 public class BossManager : MonoBehaviour
 {
     private GameManager _gameManager;
-    private Player _player;
-    private UIManager _uiManager;
-    private SpawnManager _spawnManager;
+    [SerializeField] private Player _player;
+    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private SpawnManager _spawnManager;
     private Animator _animController;
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
@@ -24,19 +24,16 @@ public class BossManager : MonoBehaviour
 
     // TODO: Create a timer after all enemies have been instantiated and bring back in the boss
     // TODO: After boss is back in the game, lower the amount of powerups dropped. 
-    // TODO: Create boss health bar.
     // TODO: [ ] Add an entry Animation
     // ? Feature: [ ] The boss and fleet come in low and small as the score reaches 1500 and when the boss arives, size adjusts, enemies die, start.
     // TODO: [ ] Add Death Animation
 
-    private void Awake() {
-        _player = GameObject.FindObjectOfType<Player>();
-        _spawnManager = GameObject.FindObjectOfType<SpawnManager>();
-        _spawnManager.IsBossBattle();
-    }
     
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _spawnManager.GetComponent<SpawnManager>();
+        _uiManager.GetComponent<UIManager>();
         
         if (_player == null && _uiManager == null && _spawnManager == null)
         {
@@ -68,6 +65,7 @@ public class BossManager : MonoBehaviour
         if (_madeEntry)
         {
             AttackState(_state);
+            _uiManager.UpdateBossHealth(_health, true);
         }
         else
         {
@@ -77,13 +75,14 @@ public class BossManager : MonoBehaviour
 
     private void EnterScene()
     {
-        this.transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(0, 12), _xMovementCurve.Evaluate(_speed) * Time.deltaTime);
+        this.transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(0, 12), (_speed - 3) * Time.deltaTime);
 
         if (this.transform.position.y == 12)
         {
             this.transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, 180), new Vector3(0, 0, 0));
             _madeEntry = true;
             this.GetComponent<EdgeCollider2D>().enabled = true;
+            _spawnManager.IsBossBattle();
             _spawnManager.StartGame(5, 8, 4, 6, true);
         }
     }

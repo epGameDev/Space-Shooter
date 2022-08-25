@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
                 case false:
                     // Normal State
                     Debug.Log("Normal State");
-                    _newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length)], randomStartPosition, Quaternion.identity);
+                    _newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length-1)], randomStartPosition, Quaternion.identity);
                     break;
             }
 
