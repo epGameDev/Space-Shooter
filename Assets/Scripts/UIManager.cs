@@ -7,13 +7,14 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance {get; private set;}
-    [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI, _bossHealthUI;
+    [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI, _bossHealthUI, _bossDamageUI;
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText, _waveText;
     [SerializeField] Text _playerLivesUI, _scoreText;
     [SerializeField] private GameObject _livesUI;
     [SerializeField] Text[] _ammoCount;
+    [SerializeField] private float  _healthShrinkTime, _healthShrinkRate;
 
 
     private int _totalScore;
@@ -35,7 +36,8 @@ public class UIManager : MonoBehaviour
         if (_overheatWarningText != null) { _overheatWarningText.gameObject.SetActive(false); }
         if (_waveText != null) { _waveText.gameObject.SetActive(false); }
 
-
+        _healthShrinkTime = 0;
+        _healthShrinkRate = 1.5f;
         _totalScore = 0;
         _scoreText.text = _totalScore.ToString();
         UpdatePlayerBoostSpeed(0);
@@ -117,6 +119,14 @@ public class UIManager : MonoBehaviour
             _bossHealthUI.gameObject.SetActive(false);
         }
         _bossHealthUI.value = health;
+    }
+
+    public void ShowUIDamage()
+    {
+        if (_bossHealthUI.value < _bossDamageUI.value)
+        {
+            _bossDamageUI.value = Mathf.SmoothDamp(_bossDamageUI.value, _bossHealthUI.value, ref _healthShrinkTime, _healthShrinkRate);
+        }
     }
 
 

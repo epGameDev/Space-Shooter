@@ -31,6 +31,11 @@ public class BossManager : MonoBehaviour
     
     void Start()
     {
+        _gameManager = GameManager.Instance;
+        if (_gameManager == null){
+            Debug.LogError("BossManager::GameManager is null");
+        }
+
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager.GetComponent<SpawnManager>();
         _uiManager.GetComponent<UIManager>();
@@ -62,6 +67,8 @@ public class BossManager : MonoBehaviour
 
     void Update()
     {
+        HealthCheck();
+
         if (_madeEntry)
         {
             AttackState(_state);
@@ -71,6 +78,7 @@ public class BossManager : MonoBehaviour
         {
             EnterScene();
         }
+        _uiManager.ShowUIDamage();
     }
 
     private void EnterScene()
@@ -105,13 +113,6 @@ public class BossManager : MonoBehaviour
                 break;
             
             default:
-                if (_health <= 0)
-                {
-                    this.gameObject.SetActive(false);
-                    _gameOver = true;
-                    _gameManager.GameOver();
-                    
-                }
                 break;
         }
 
@@ -142,9 +143,10 @@ public class BossManager : MonoBehaviour
             case 3: //========================================== Pulse Cannon State
                 if (!_stateRoutineLoaded)
                 {
-                    StartCoroutine(StateTimer(10f, 10f));
+                    StartCoroutine(StateTimer(14f, 14f));
                 }
                 PulseCanonState();
+                // PulseSweep();
                 break;
 
             case 4: //========================================== Swarm State
@@ -207,6 +209,7 @@ public class BossManager : MonoBehaviour
     {
         _startPos = new Vector3(this.transform.position.x, 5.05f, 0);
         _pulseCanon.SetActive(false);
+        this.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         if (this.transform.position != _startPos)
         {
@@ -298,6 +301,35 @@ public class BossManager : MonoBehaviour
         }
 
         BossMovement(_xMovementDirection, 0);
+    }
+
+    private void PulseSweep()
+    {
+        _pulseCanon.SetActive(true);
+        _pulseCanon.transform.GetChild(2).gameObject.SetActive(true);
+        _pulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
+
+        if (transform.position != new Vector3(0, 1, 0))
+        {
+            this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(0, 1, 0), _speed * Time.deltaTime);
+        }
+        else 
+        {
+            Debug.Log("rotate");
+            this.transform.Rotate(new Vector3(0, 0, -1) * (_speed + 20) * Time.deltaTime, Space.Self);
+        }
+    }
+
+
+    private void HealthCheck()
+    {
+        if (_health <= 0)
+        {
+            _gameManager.GameOver();
+            _gameOver = true;
+            this.gameObject.SetActive(false);
+            
+        }
     }
  
 }

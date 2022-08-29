@@ -56,13 +56,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver () 
-    {
-        gameOver = true;
-        _spawnManager.StopSpawning();
-        _uiManager.DisplayGameOver();
-    }
-
     public void RestartGame() 
     {
         if (Input.GetButtonDown("Start") || Input.GetKeyDown(KeyCode.R))
@@ -149,5 +142,13 @@ public class GameManager : MonoBehaviour
                 _nextWave++; // Next wave is 6 = Boss Battle
             }
         }
+    }
+
+
+    public void GameOver () 
+    {
+        gameOver = true;
+        _spawnManager.StopSpawning();
+        _uiManager.DisplayGameOver();
     }
 }
