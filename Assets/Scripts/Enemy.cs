@@ -189,19 +189,22 @@ public class Enemy : MonoBehaviour
 
     private void EnableBackShot()
     {
-
-        if (this.transform.position.y < _player.transform.position.y && !_hasDied) 
+        if (_player != null)
         {
-            _distanceToEnemy = Mathf.Abs(this.transform.position.x - _player.transform.position.x);
-
-            if (_altShotTimer <= Time.time && _distanceToEnemy < 0.5)
+            if (this.transform.position.y < _player.transform.position.y && !_hasDied) 
             {
-                _altShotTimer = Time.time + _fireRate + 6f;
-                GameObject backShot = Instantiate(_altFire, _backFirePos.transform.position, Quaternion.identity);
-                backShot.GetComponent<PowerUps>().ChangeSpeed(-3);
-            }
+                _distanceToEnemy = Mathf.Abs(this.transform.position.x - _player.transform.position.x);
 
+                if (_altShotTimer <= Time.time && _distanceToEnemy < 0.5)
+                {
+                    _altShotTimer = Time.time + _fireRate + 6f;
+                    GameObject backShot = Instantiate(_altFire, _backFirePos.transform.position, Quaternion.identity);
+                    backShot.GetComponent<PowerUps>().ChangeSpeed(-3);
+                }
+
+            }
         }
+        
     }
 
 

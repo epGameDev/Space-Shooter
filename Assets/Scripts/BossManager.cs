@@ -8,17 +8,18 @@ public class BossManager : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private SpawnManager _spawnManager;
+    [SerializeField] private ParticleSystem _particleBossHealth;
     private Animator _animController;
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
 
     [SerializeField] private AnimationCurve _xMovementCurve, _aggressivLungeCurve;
-    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _pulseCanon, _playerTarget;
+    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _particlePulseCanon, _playerTarget;
     private Vector3 _entryPos, _startPos, _centerAttackTarget;
 
     [SerializeField] private float _leftBounds, _rightBounds, _resetLocationY, _spawnLocationY, _xMovementDirection, _yMovementDirection, distance;
     [SerializeField] private float  _speed, _fireRate, _shotInterval, _altShotInterval, _distanceToEnemy;
-    [SerializeField] float _health, _regenerateRate;
+    [SerializeField] float _health, _maxHealth, _regenerateRate;
     [SerializeField] private int _state, _nextState, _pulseCanonColiderSize;
     [SerializeField] private bool _gameOver, _madeEntry, _stateRoutineLoaded;
 
@@ -56,7 +57,8 @@ public class BossManager : MonoBehaviour
         _gameOver = false;
         _madeEntry = false;
         _stateRoutineLoaded = false;
-        _health = 5000;
+        _maxHealth = 5000f;
+        _health = _maxHealth;
 
         _state = 0;
         _nextState = _state; 
@@ -169,11 +171,12 @@ public class BossManager : MonoBehaviour
                 break;
                 
             case 6: //==========================================Fortify State
-                if(!_stateRoutineLoaded)
+                if (!_stateRoutineLoaded)
                 {
-                    StartCoroutine(StateTimer(3f, 3f));
+                    StartCoroutine(StateTimer(1f, 1f));
+                    FortifyState();
                 }
-                AgressiveAttack();
+
                 break; 
 
             default: { //========================================== Default Load State
@@ -189,12 +192,11 @@ public class BossManager : MonoBehaviour
 
     private void LoadNextState()
     {
-        _state = Random.Range(1,6);
+        _state = Random.Range(1,7);
         if (_nextState == _state)
         {
-            _state = Random.Range(1,6);
+            _state = Random.Range(1,7);
         }
-
         _nextState = _state;
 
     }
@@ -208,7 +210,7 @@ public class BossManager : MonoBehaviour
     private void BackToStart()
     {
         _startPos = new Vector3(this.transform.position.x, 5.05f, 0);
-        _pulseCanon.SetActive(false);
+        _particlePulseCanon.SetActive(false);
         this.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         if (this.transform.position != _startPos)
@@ -286,9 +288,9 @@ public class BossManager : MonoBehaviour
     private void PulseCanonState()
     {
 
-        _pulseCanon.SetActive(true);
-        _pulseCanon.transform.GetChild(2).gameObject.SetActive(true);
-        _pulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
+        _particlePulseCanon.SetActive(true);
+        _particlePulseCanon.transform.GetChild(2).gameObject.SetActive(true);
+        _particlePulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
 
         
         if (this.transform.position.x == _rightBounds) 
@@ -305,9 +307,9 @@ public class BossManager : MonoBehaviour
 
     private void PulseSweep()
     {
-        _pulseCanon.SetActive(true);
-        _pulseCanon.transform.GetChild(2).gameObject.SetActive(true);
-        _pulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
+        _particlePulseCanon.SetActive(true);
+        _particlePulseCanon.transform.GetChild(2).gameObject.SetActive(true);
+        _particlePulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
 
         if (transform.position != new Vector3(0, 1, 0))
         {
@@ -320,15 +322,27 @@ public class BossManager : MonoBehaviour
         }
     }
 
+    private void FortifyState(int randomValue = 0)
+    {
+        _stateRoutineLoaded = true;
+        _particleBossHealth.Play();
+        randomValue = Random.Range(100, 401);
+        _health += randomValue;
+        _uiManager.BossHealthTextUpdate(randomValue);
+    }
+
 
     private void HealthCheck()
     {
+        if (_health > _maxHealth)
+        {
+            _health = _maxHealth;
+        }
         if (_health <= 0)
         {
             _gameManager.GameOver();
             _gameOver = true;
             this.gameObject.SetActive(false);
-            
         }
     }
  

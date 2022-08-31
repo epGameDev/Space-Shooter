@@ -1,4 +1,4 @@
-
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +10,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider _speedBoostLimitUI, _shotLimitUI, _bossHealthUI, _bossDamageUI;
 
     [SerializeField] private GameManager _gameManager;
-    [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText, _waveText;
+    [SerializeField] private TMP_Text _gameOverText, _restartGameText, _overheatWarningText, _waveText, _healthStatusText;
     [SerializeField] Text _playerLivesUI, _scoreText;
-    [SerializeField] private GameObject _livesUI;
-    [SerializeField] Text[] _ammoCount;
+    [SerializeField] private GameObject _livesUI, _bossHealthTxtPos;
+    [SerializeField] Text _ammoCountText;
     [SerializeField] private float  _healthShrinkTime, _healthShrinkRate;
 
 
@@ -104,21 +104,35 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmoCount(int ammoID, int ammoAount, int maxAmmo)
     {
-        _ammoCount[ammoID].text = (ammoAount.ToString() + " / " + maxAmmo);
+        _ammoCountText.text = (ammoAount.ToString() + " / " + maxAmmo);
     }
 
     public void UpdateBossHealth(float health, bool isBossBattle)
     {
         if (isBossBattle)
         {
-            // Debug.Log("in UI");
             _bossHealthUI.gameObject.SetActive(true);
         }
         else
         {
             _bossHealthUI.gameObject.SetActive(false);
         }
+        
         _bossHealthUI.value = health;
+    }
+
+    public void BossHealthTextUpdate(float healthIncrease)
+    {
+        _healthStatusText.text = "+ " + healthIncrease.ToString();
+        TMP_Text text = Instantiate(_healthStatusText, _bossHealthTxtPos.transform.position, Quaternion.identity);
+
+        if (_bossHealthTxtPos != null)
+        {
+            text.transform.SetParent(_bossHealthTxtPos.transform);
+            text.transform.localScale = new Vector3(1, 1, 1); // ! Bug Report: [ ] Issue with scale on instantiation;
+        }
+
+        Destroy(text.gameObject, 3);
     }
 
     public void ShowUIDamage()

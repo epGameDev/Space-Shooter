@@ -457,7 +457,7 @@ MonoBehaviour:
   _directionChange: 0
   _health: 450
   _randomSpawnLocation: 0
-  _playerPoints: 25
+  _playerPoints: 75
   _laserPrefab: {fileID: 1788886252652014968, guid: f5f342214c7f6ad388a149dbc7493367, type: 3}
   _firePos: {fileID: 7121667708790034148}
   _backFirePos: {fileID: 5900791609133813091}
