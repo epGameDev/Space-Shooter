@@ -1627,11 +1627,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.14
+      value: 7.36
       objectReference: {fileID: 0}
     - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2406,6 +2406,7 @@ MonoBehaviour:
   _shield: {fileID: 143252946}
   _thruster: {fileID: 750868114}
   _particleSYS: {fileID: 5306616524491734453}
+  _explosion: {fileID: 6610413733074362938, guid: 36947e6d393252541ae27c153d665d83, type: 3}
   _engineDamage:
   - {fileID: 1597799986}
   - {fileID: 1653175340}

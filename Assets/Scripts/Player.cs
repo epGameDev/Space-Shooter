@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield, _thruster, _particleSYS;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield, _thruster, _particleSYS, _explosion;
     [SerializeField] private GameObject[] _engineDamage;
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
     private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
@@ -78,12 +78,19 @@ public class Player : MonoBehaviour
 
     }
 
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.gameObject.tag == "EnemyFire")
         {
             TakeDamage();
             Destroy(other.gameObject);
+
+            if (other.gameObject.name == "DarkProjectile")
+            {
+                ExplodeEffect();
+                Destroy(other.gameObject);
+            }
         }
 
         if (other.gameObject.tag == "PulseCanon")
@@ -275,6 +282,11 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdatePlayerHealth(lives);
 
+    }
+
+    private void ExplodeEffect()
+    {
+        Instantiate(_explosion, this.transform.position, Quaternion.identity);
     }
 
     // ======================================= //

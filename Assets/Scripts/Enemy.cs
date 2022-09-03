@@ -222,10 +222,12 @@ public class Enemy : MonoBehaviour
         _speed = 3;
         StopAllCoroutines();
         _anim.SetTrigger("OnEnemyDeath");
+        
         if (_explosionSound != null)
         {
             _explosionSound.Play();
         }
+
         Destroy(this.gameObject, 100f * Time.deltaTime);
     }
 

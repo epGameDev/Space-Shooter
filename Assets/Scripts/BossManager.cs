@@ -14,7 +14,8 @@ public class BossManager : MonoBehaviour
     private EdgeCollider2D _collider;
 
     [SerializeField] private AnimationCurve _xMovementCurve, _aggressivLungeCurve;
-    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _particlePulseCanon, _playerTarget;
+    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _particlePulseCanon, _darkProjectile, _playerTarget;
+    [SerializeField] GameObject[] _homingPos;
     private Vector3 _entryPos, _startPos, _centerAttackTarget;
 
     [SerializeField] private float _leftBounds, _rightBounds, _resetLocationY, _spawnLocationY, _xMovementDirection, _yMovementDirection, distance;
@@ -163,11 +164,9 @@ public class BossManager : MonoBehaviour
             case 5: //==========================================Homing Attack State
                 if (!_stateRoutineLoaded)
                 {
-                    StartCoroutine(StateTimer(5f, 10f));
-                    StartCoroutine(WaveMovementRoutine());
-                    StartCoroutine(FireRoutine());
+                    StartCoroutine(StateTimer(1f, 1f));
+                    HomingAttackState();
                 }
-                NormalAttackState();
                 break;
                 
             case 6: //==========================================Fortify State
@@ -320,6 +319,13 @@ public class BossManager : MonoBehaviour
             Debug.Log("rotate");
             this.transform.Rotate(new Vector3(0, 0, -1) * (_speed + 20) * Time.deltaTime, Space.Self);
         }
+    }
+
+    private void HomingAttackState()
+    {
+        _stateRoutineLoaded = true;
+        Instantiate(_darkProjectile, _homingPos[0].transform.position, Quaternion.identity);
+        Instantiate(_darkProjectile, _homingPos[1].transform.position, Quaternion.identity);
     }
 
     private void FortifyState(int randomValue = 0)

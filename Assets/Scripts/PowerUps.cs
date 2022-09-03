@@ -98,7 +98,7 @@ public class PowerUps : MonoBehaviour
 
     private void Movement ()
     {
-        if(Input.GetKeyDown(KeyCode.C) && _powerUpID != 5)
+        if(Input.GetKeyDown(KeyCode.C) && _powerUpID != 5 && _target.gameObject.activeInHierarchy == true)
         {
             _moveTowardsPlayer = true;
         }
