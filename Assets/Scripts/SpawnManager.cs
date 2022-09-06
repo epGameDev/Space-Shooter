@@ -3,12 +3,23 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    
+    
+    
+    //=====================================//
+    //========= Private Variables =========//
 
     [SerializeField] private GameObject _enemyContainer, _newEnemy, _bossPrefab;
     [SerializeField] private GameObject[] _powerUps, _enemyPrefab;
-    [SerializeField] float _leftBounds, _rightBounds;
+    [SerializeField] private float _leftBounds, _rightBounds;
     private int _swarmCounter;
     private bool _canSpawnEnemy, _canSpawnPowerUp, _isBossBattle, _swarmState;
+
+    
+    
+    
+    //=================================//
+    //========= Unity Methods =========//
 
     private void Start() 
     {
@@ -20,16 +31,18 @@ public class SpawnManager : MonoBehaviour
         _canSpawnPowerUp = true;
         _isBossBattle = false;
         _swarmState = false;
+
+        StartGame(100, 100, 2, 2, false);
     }
     
+
+
 
     // ====================================== //
     // ============== Spawners ============== //
 
     IEnumerator EnemySpawnRoutine (float minTime, float maxTime, bool isBossBattle = false) 
-    {
-
-        
+    {        
 
         while (_canSpawnEnemy && _enemyPrefab != null) 
         {
@@ -72,6 +85,7 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+
     private IEnumerator PowerUpSpawnRoutine (float minTime, float maxTime)
     {
         Vector3 randomStartPosition = new Vector3(Random.Range(-9, 9), 8, 0);
@@ -79,13 +93,17 @@ public class SpawnManager : MonoBehaviour
         while (_canSpawnPowerUp && _powerUps != null) 
         {
             yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 10, 20
-            Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
+            // Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
+            Instantiate(_powerUps[8], randomStartPosition, Quaternion.identity);
         }
         
 
         StopCoroutine(PowerUpSpawnRoutine(minTime, maxTime));
 
     }
+
+
+
 
     // =============================================== //
     // ============== Spawn Controllers ============== //
@@ -105,6 +123,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(PowerUpSpawnRoutine(minPowerUp, maxPowerUp));
     }
 
+
     public void StopSpawning() 
     {
         _canSpawnEnemy = false;
@@ -118,6 +137,12 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+    
+    
+    
+    //=======================================//
+    //========= Boss Battle Methods =========//
+
     public bool CheckChildCount(bool isBossBattle)
     {
         if (isBossBattle && _swarmState == false)
@@ -129,11 +154,13 @@ public class SpawnManager : MonoBehaviour
         return false;
     }
 
+
     public void IsBossBattle()
     {
         _isBossBattle = true;
         StopSpawning();
     }
+
 
     public void Swarm()
     {

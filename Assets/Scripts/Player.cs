@@ -8,18 +8,26 @@ public class Player : MonoBehaviour
     [SerializeField] private CameraController _camera;
     private AudioSource _audio;
 
+
+
+
     //=====================================//
     //========= Private Variables =========//
 
-    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab, _firePos1, _firePos2, _bombPos,  _shield, _thruster, _particleSYS, _explosion;
+    [SerializeField] private GameObject _laserPrefab, _tripleShotPrefab, _bombPrefab;
+    [SerializeField] private GameObject _firePos1, _firePos2, _bombPos;
+    [SerializeField] private GameObject _shield, _thruster, _particleSYS, _explosion;
     [SerializeField] private GameObject[] _engineDamage;
     [SerializeField] private float _leftBounds, _rightBounds, _upperBounds, _lowerBounds;
-    private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
-    [SerializeField] private float _speed, _speedBurstDuration;
+    [SerializeField] private float _timeSinceFired, _fireRate, _coolDown, _shotCount, _shotLimit;
+    [SerializeField] private float _speed, _speedBurstLimit;
     [SerializeField] private int _shieldHealth, _bombCount;
     private int _maxBombs = 8;
     private Vector3 _startPos;
-    private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false, _isDisabled = false;
+    [SerializeField] private bool canFire = true, _shieldEnabled = false, _tripleShotEnabled = false, _isDisabled = false;
+
+
+
 
     //====================================//
     //========= Public Variables =========//
@@ -27,24 +35,33 @@ public class Player : MonoBehaviour
     public int lives { get; private set; }
 
 
+
+
+    //==============================//
+    //========= Game Logic =========//
+
     void Start()
     {
-        // Initialize Values
         _gameManager = GameManager.Instance;
         _uiManager.GetComponent<UIManager>();
         if(_gameManager == null || _uiManager == null)
         {
             Debug.LogError("Player::UI/GameManager is null");
         }
-
+        
+        _camera = _camera.GetComponent<CameraController>();
         _audio = this.gameObject.GetComponent<AudioSource>();
+        if (_audio == null || _camera == null)
+        {
+            Debug.LogError("Player::Audio/Camera refference is null");
+        }
 
         _rightBounds = 11.58f;
         _leftBounds = -11.58f;
         _upperBounds = 6.85f;
         _lowerBounds = -5f;
         _startPos = new Vector3(0,-1.5f,0);
-        _coolDown = 10f;
+        _coolDown = 1f;
         _shotLimit = 30f;
         _shotCount = 0f;
         _bombCount = 0;
@@ -56,18 +73,19 @@ public class Player : MonoBehaviour
         transform.position = _startPos;
         _timeSinceFired = Time.time + _fireRate;
        
+       // Disable engine damage animation/prefab
        _engineDamage[0].SetActive(false);
        _engineDamage[1].SetActive(false);
 
-       _shield = transform.GetChild(3).gameObject;
-       _camera = _camera.GetComponent<CameraController>();
-        _uiManager.UpdateAmmoCount(0 , _bombCount, 8);
+        // (ammo ID, ammo count, max ammo)
+        _uiManager.UpdateAmmoCount(0 , _bombCount, 8); // TODO: [ ] Add more ammo types
 
     }
 
  
     void Update()
     {
+        // Can provide functions if the ship is not diabled.
         if (!_isDisabled)
         {
             PlayerMovement();
@@ -90,14 +108,19 @@ public class Player : MonoBehaviour
             {
                 ExplodeEffect();
                 Destroy(other.gameObject);
+                _camera.ShakeCamera();
             }
         }
 
         if (other.gameObject.tag == "PulseCanon")
         {
             TakeDamage();
+            ExplodeEffect();
+            _camera.ShakeCamera();
         }
     }
+
+
 
 
     // ====================================== //
@@ -118,19 +141,20 @@ public class Player : MonoBehaviour
 
     }
 
+
     private void SpeedBurst (float burstSpeed)
     {
-        if (Input.GetButton("Fire3") && _speedBurstDuration > 0 ) 
+        if (Input.GetButton("Fire3") && _speedBurstLimit > 0 ) 
         {
             // Displays Speed UI Meter
-            _uiManager.UpdatePlayerBoostSpeed(_speedBurstDuration);
+            _uiManager.UpdatePlayerBoostSpeed(_speedBurstLimit);
 
             _speed = burstSpeed;
-            _speedBurstDuration -= 1 * Time.deltaTime;
+            _speedBurstLimit -= 1 * Time.deltaTime;
 
-            if (_speedBurstDuration <= 0) 
+            if (_speedBurstLimit <= 0) 
             {
-                _speedBurstDuration = 0;
+                _speedBurstLimit = 0;
             }
 
         } 
@@ -142,65 +166,73 @@ public class Player : MonoBehaviour
 
     }
 
+
+
+
     // ==================================== //
     // ============== Attack ============== //
 
     private void FireLaser ()
     {  
-        _uiManager.UpdatePlayerShotLimit(!canFire, _shotCount);
 
         // Fire Conditions 
-        if (_shotCount < _shotLimit){ 
-            canFire = true;
-        }else{
+        if (_shotCount >= _shotLimit)
+        { 
             canFire = false;
-            StartCoroutine(CoolDownTimer());
+            _coolDown = 2f;
         }
+
+        _uiManager.UpdatePlayerShotLimit(!canFire, _shotCount);
+
 
         // Fire Logic
         if (Input.GetButton("Fire1") && canFire && Time.time > _timeSinceFired)
         {
-            if(_laserPrefab != null)
+            if(_laserPrefab != null || _tripleShotPrefab != null)
             {
+                _shotCount++;
                 Instantiate(_laserPrefab, _firePos1.transform.position, Quaternion.identity);
+
+                // Shoots two extra lasers
+                if (_tripleShotEnabled) {
+                    Instantiate(_tripleShotPrefab, _firePos2.transform.position, Quaternion.identity);
+                }
+
                 if(_audio != null)
                 {
                     _audio.Play();
                 }
             }
 
-            if (_tripleShotEnabled) {
-                Instantiate(_tripleShotPrefab, _firePos2.transform.position, Quaternion.identity);
-            }
-
             _timeSinceFired = Time.time + _fireRate;
-            _shotCount++;
+
         }
-        else if (_shotCount >=0 && canFire) {
-            _shotCount -= 1 * (Time.deltaTime / 0.60f);
-            if (_shotCount < 0) _shotCount = 0;
+        
+        // Cool Down
+        if (_shotCount > 0) 
+        {
+            _shotCount -= _coolDown * (Time.deltaTime / 0.60f);
+        }
+        else
+        {
+            _shotCount = 0;
+            canFire = true;
+            _coolDown = 1;
         }
     }
 
+
     private void LaunchBomb()
     {
-        if (Input.GetButtonDown("Fire2") && _bombCount > 0)
+        if (Input.GetButtonDown("Fire2") && _bombCount > 0 && _bombPrefab != null)
         {
             _bombCount--;
             Instantiate(_bombPrefab, _bombPos.transform.position, Quaternion.identity);
             _uiManager.UpdateAmmoCount(0 , _bombCount, 8);
-
         }
     }
 
 
-    IEnumerator CoolDownTimer () {
-
-        yield return new WaitForSecondsRealtime(_coolDown);
-        _shotCount = 0;
-        StopCoroutine(CoolDownTimer());
-
-    }
 
 
     // ==================================== //
@@ -231,26 +263,20 @@ public class Player : MonoBehaviour
                     Debug.Log("Shield Health" + _shieldHealth);
                     break;
             }
-
-        }else
+        }
+        else
         {
             lives--;
             if(lives > 0)
             {
                 _camera.ShakeCamera();
             }
-            
+           
             HealthCheck();
         }
 
-        
-        if (lives <= 0) 
-        {
-            _gameManager.GameOver();
-            this.gameObject.SetActive(false);
-        }
-
     }
+
 
     private void HealthCheck()
     {
@@ -258,7 +284,9 @@ public class Player : MonoBehaviour
         {
             case 0:
                 _gameManager.GameOver();
-                this.gameObject.SetActive(false);
+                ExplodeEffect();
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                _shield.SetActive(false);
                 break;
             case 1:
                 _engineDamage[0].SetActive(true);
@@ -281,13 +309,19 @@ public class Player : MonoBehaviour
         }
 
         _uiManager.UpdatePlayerHealth(lives);
-
     }
+
 
     private void ExplodeEffect()
     {
-        Instantiate(_explosion, this.transform.position, Quaternion.identity);
+        if(_explosion != null)
+        {
+            Instantiate(_explosion, this.transform.position, Quaternion.identity);
+        }
     }
+
+
+
 
     // ======================================= //
     // ============== Power Ups ============== //
@@ -317,17 +351,22 @@ public class Player : MonoBehaviour
 
     public void EnableSpeedBoost () 
     {
-        _speedBurstDuration = 10;
-        _uiManager.UpdatePlayerBoostSpeed(_speedBurstDuration);
+        _speedBurstLimit = 10;
+        _uiManager.UpdatePlayerBoostSpeed(_speedBurstLimit);
     }
 
     public void DisableShip()
     {
+        _particleSYS.SetActive(true);
         this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
         _camera.ShakeCamera();
         _thruster.SetActive(false);
-        _isDisabled = true;
-        StartCoroutine(DisableShipTimer());
+
+        if(!_isDisabled)
+        {
+            _isDisabled = true;
+            StartCoroutine(DisableShipTimer());
+        }
     }
 
     private IEnumerator DisableShipTimer()
@@ -335,8 +374,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _thruster.SetActive(true);
         _isDisabled = false;
-        _particleSYS.SetActive(true);
-        // StopCoroutine(DisableShipTimer()); // ! Bug: [ ] When user gets hit multiple times, 5 second delay doesn't mater.
     }
 
     public void PowerShields()
@@ -352,5 +389,4 @@ public class Player : MonoBehaviour
         lives++;
         HealthCheck();
     }
-
 }

@@ -18,8 +18,8 @@ public class Asteroid : MonoBehaviour
         _health = 100;
         _rotateSpeed = 13f;
         _speed = 0.5f;
-        _leftBounds = -9.1f;
-        _rightBounds = 9.1f;
+        _leftBounds = -10f;
+        _rightBounds = 10f;
         _hasExploded = false;
     }
 

@@ -9501,7 +9501,7 @@ GameObject:
   - component: {fileID: -5944015033579414942}
   - component: {fileID: -5475193516117020870}
   m_Layer: 0
-  m_Name: pf_vfx-ult_demo_psys_loop_rift
+  m_Name: EMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
