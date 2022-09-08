@@ -552,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &143252947
 Transform:
   m_ObjectHideFlags: 0
@@ -854,25 +854,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 39651060}
     m_Modifications:
-    - target: {fileID: 2747673253236096126, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747673253236096126, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747673253793518048, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_Value
-      value: 5000
-      objectReference: {fileID: 0}
     - target: {fileID: 2747673253793518053, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
       propertyPath: m_Name
       value: BossHealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747673253793518053, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2747673253793518054, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
       propertyPath: m_Pivot.x
@@ -957,22 +941,6 @@ PrefabInstance:
     - target: {fileID: 2747673253793518054, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3528784722943146116, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4295809619426195758, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4295809619426195758, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5492915786354976885, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
-      propertyPath: m_Value
-      value: 5000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 256dff55dd684d3c48ab2e1f588b2ade, type: 3}
@@ -1213,11 +1181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e253545d70878c94690768f77e6dcca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameManager: {fileID: 713327570}
   _speedBoostLimitUI: {fileID: 1312774175}
   _shotLimitUI: {fileID: 1719562914}
   _bossHealthUI: {fileID: 1925326962}
   _bossDamageUI: {fileID: 2023639328}
-  _gameManager: {fileID: 713327570}
+  _livesUI: {fileID: 2029695072}
+  _bossHealthTxtPos: {fileID: 467794226}
   _gameOverText: {fileID: 55369093}
   _restartGameText: {fileID: 292569509}
   _overheatWarningText: {fileID: 1348855371}
@@ -1225,11 +1195,10 @@ MonoBehaviour:
   _healthStatusText: {fileID: 6443961641969520096, guid: 16988cfc7b81fb3c3b3a2513bbe0dc29, type: 3}
   _playerLivesUI: {fileID: 1684917307}
   _scoreText: {fileID: 84375877}
-  _livesUI: {fileID: 2029695072}
-  _bossHealthTxtPos: {fileID: 467794226}
   _ammoCountText: {fileID: 1055002172}
   _healthShrinkTime: 0
   _healthShrinkRate: 0
+  _totalScore: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1324,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnManager: {fileID: 241328501}
   _uiManager: {fileID: 695363272}
-  _player: {fileID: 0}
+  _player: {fileID: 1786235779}
+  _boss: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
   gameOver: 0
 --- !u!4 &713327571
 Transform:
@@ -1594,83 +1564,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &949895909
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 1786235779}
-    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: _uiManager
-      value: 
-      objectReference: {fileID: 695363272}
-    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: _playerTarget
-      value: 
-      objectReference: {fileID: 1786235778}
-    - target: {fileID: 8177078360979502059, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: _spawnManager
-      value: 
-      objectReference: {fileID: 241328501}
-    - target: {fileID: 8387311868858432248, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_Name
-      value: Enemy Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 8387311868858432248, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9131925176627452635, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d3f002fb98457ab008ee2e2f5ece2b02, type: 3}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2761,10 +2654,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EMP_Effect
       objectReference: {fileID: 0}
-    - target: {fileID: 5788110756056322472, guid: fe6a562d833b8ff2ab84f653020a715b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5788110756056606152, guid: fe6a562d833b8ff2ab84f653020a715b, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2906,7 +2795,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left HealthUI/Ammo Cluster
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3937861224707204261, guid: e1bfe25da3304b739ae1a61ab8c16c98, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1bfe25da3304b739ae1a61ab8c16c98, type: 3}
 --- !u!224 &3349195988343241696 stripped
 RectTransform:
@@ -3102,7 +2992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744978587997050823, guid: d8ddd75468a9692439168a4c1d7e180a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8ddd75468a9692439168a4c1d7e180a, type: 3}

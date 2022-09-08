@@ -3,13 +3,20 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    // Private Variables
+    //=====================================//
+    //========= Private Variables =========//
+
     [SerializeField] private float laserSpeed = 10f;
     [SerializeField] private bool isEnemy;
 
+    
+    
+    
+    //=================================//
+    //========= Unity Methods =========//
 
     void Update()
-    {
+    {        
         if (!isEnemy)
         {
             LaserMovement(1);
@@ -18,9 +25,13 @@ public class Laser : MonoBehaviour
         {
             LaserMovement(-1);
         }
-
-
     }
+
+    
+    
+    
+    //==================================//
+    //========= Laser Movement =========//
 
     void LaserMovement(int direction)
     {

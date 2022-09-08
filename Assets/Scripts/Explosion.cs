@@ -9,6 +9,8 @@ public class Explosion : MonoBehaviour
     private void Start() 
     {
         _camera = GameObject.Find("Main Camera").GetComponent<CameraController>();  
+        if (_camera == null) { Debug.Log("Explosion:: Main Camera is null"); }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

@@ -452,12 +452,15 @@ MonoBehaviour:
   _leftBounds: 0
   _rightBounds: 0
   distance: 0
-  _speed: 3
-  _fireRate: 0
-  _directionChange: 0
-  _health: 450
   _randomSpawnLocation: 0
-  _playerPoints: 75
+  _speed: 3
+  _directionChange: 0
+  _fireRate: 0
+  _distanceToEnemy: 0
+  _timeTillFire: 0
+  _altShotTimer: 0
+  _health: 450
+  _pointsGiven: 100
   _laserPrefab: {fileID: 1788886252652014968, guid: f5f342214c7f6ad388a149dbc7493367, type: 3}
   _firePos: {fileID: 7121667708790034148}
   _backFirePos: {fileID: 5900791609133813091}

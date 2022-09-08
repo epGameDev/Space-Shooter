@@ -15,22 +15,18 @@ public class EvadeAttack : MonoBehaviour
         _speed = 18;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other) 
     {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D other2) 
-    {
-        if (other2.transform.tag == "laser")
+        // Dodge Laser
+        if (other.transform.tag == "laser")
         {
             _parent.ChangeDirection();
         }
 
-        if(other2.transform.tag == "PowerUp" && other2.transform.position.y < 2)
+        // Aligns with powerup to shoot
+        if(other.transform.tag == "PowerUp" && other.transform.position.y < 2)
         {
-            _parent.transform.Translate( Vector3.MoveTowards(_parent.transform.position, other2.transform.position, _speed) * Time.deltaTime);
+            _parent.transform.Translate( Vector3.MoveTowards(_parent.transform.position, other.transform.position, _speed) * Time.deltaTime);
         }
     }
 }

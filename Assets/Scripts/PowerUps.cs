@@ -2,21 +2,35 @@ using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
-    // private AudioSource _audio;
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Transform _target;
     [SerializeField] private AnimationCurve _curve;
-
     [SerializeField] AudioClip _powerUpSound;
+
+    
+    
+    
+    //=====================================//
+    //========= Private Variables =========//
+
     [SerializeField] private float _speed = 3f;
     [SerializeField] private int _powerUpID;
     private bool _moveTowardsPlayer;
 
+    
+    
+    
+    //=================================//
+    //========= Unity Methods =========//
 
     private void Start() 
     {
         _audioManager = AudioManager.Instance;
+        if (_audioManager == null) { Debug.Log("PowerUps:: Audio Manager is null"); }
+        
         _target = GameObject.Find("Player").transform;
+        if (_target == null) { Debug.Log("PowerUps:: Player [_target] is null"); }
+        
         _moveTowardsPlayer = false;
     }
 
@@ -29,6 +43,7 @@ public class PowerUps : MonoBehaviour
             SelfDestruct();
         }
     }
+
 
     private void OnTriggerEnter2D (Collider2D other) 
     {
@@ -71,30 +86,36 @@ public class PowerUps : MonoBehaviour
             } 
             else 
             {
-                Debug.Log("No Player Script Found");
+                Debug.Log("PowerUps:: Other.gameObject [player] is null");
             }
             
             SelfDestruct();
         }
 
-        if (other.transform.tag == "EnemyFire" && _powerUpID != 5) // Destroys all but the Disable Ship power up
+        if (other.transform.tag == "EnemyFire" && _powerUpID != 5) // Destroys all but the EMP power up
         {
             Destroy(other.gameObject);
             SelfDestruct();
         }
-        else if (other.gameObject.tag == "laser" && _powerUpID == 5)
+        else if (other.gameObject.tag == "laser" && _powerUpID == 5) // Allows to destroy the EMP power up
         {
             Destroy(other.gameObject);
             SelfDestruct();
         }
 
-        if (other.gameObject.tag == "PulseCanon")
+        if (other.gameObject.tag == "PulseCanon") 
         {
             SelfDestruct();
         }
 
 
     }
+    
+    
+    
+
+    //=====================================//
+    //========= Power Up Movement =========//
 
     private void Movement ()
     {
@@ -118,6 +139,12 @@ public class PowerUps : MonoBehaviour
     {
         _speed = speed;
     }
+
+    
+    
+    
+    //===============================//
+    //========= End Of Life =========//
 
     private void SelfDestruct () 
     {

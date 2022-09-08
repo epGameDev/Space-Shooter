@@ -285,8 +285,8 @@ public class Player : MonoBehaviour
             case 0:
                 _gameManager.GameOver();
                 ExplodeEffect();
-                this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                _shield.SetActive(false);
+                this.gameObject.SetActive(false);
+                _thruster.SetActive(false);
                 break;
             case 1:
                 _engineDamage[0].SetActive(true);
@@ -304,6 +304,7 @@ public class Player : MonoBehaviour
                 lives = 3;
                 break;
             default:
+                lives = 0;
                 Debug.LogError("Index for lives is out of range");
                 break;
         }

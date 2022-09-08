@@ -21,6 +21,8 @@ public class Asteroid : MonoBehaviour
         _leftBounds = -10f;
         _rightBounds = 10f;
         _hasExploded = false;
+
+        if (PlayerPrefs.GetInt("Score") != 0) {this.gameObject.SetActive(false); }
     }
 
     void Update()
@@ -34,7 +36,7 @@ public class Asteroid : MonoBehaviour
         if (other.gameObject.tag == "laser")
         {
             _health -= 30;
-            Explode(this.gameObject);
+            ExplosionEffect(this.gameObject);
             Destroy(other.gameObject);
             if(_health <= 0)
             {
@@ -47,7 +49,7 @@ public class Asteroid : MonoBehaviour
 
         if(other.gameObject.tag == "Player")
         {
-            Explode(other.gameObject);
+            ExplosionEffect(other.gameObject);
             Destroy(other.gameObject);
             if(_gameManager != null)
             {
@@ -69,7 +71,7 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    private void Explode(GameObject gameObject)
+    private void ExplosionEffect(GameObject gameObject)
     {
         GameObject _explostionOBJ = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity);
         Destroy(_explostionOBJ.gameObject, 120f * Time.deltaTime);

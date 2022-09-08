@@ -31,8 +31,6 @@ public class SpawnManager : MonoBehaviour
         _canSpawnPowerUp = true;
         _isBossBattle = false;
         _swarmState = false;
-
-        StartGame(100, 100, 2, 2, false);
     }
     
 
@@ -49,7 +47,9 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 4, 6
             Vector3 randomStartPosition = new Vector3(Random.Range(_leftBounds, _rightBounds), 8, 0);
             if (_swarmCounter >= 6) { _swarmState = false; }
+            if (_swarmCounter < 0) { _swarmCounter = 0; }
             
+
             switch (isBossBattle)
             {
                 case true:
@@ -63,26 +63,24 @@ public class SpawnManager : MonoBehaviour
                     {
                         _newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length - 1)], randomStartPosition, Quaternion.identity);
                     }
-                    break;
+                break;
                 
                 case false:
                     // Normal State
-                    Debug.Log("Normal State");
                     _newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length-1)], randomStartPosition, Quaternion.identity);
-                    break;
+                break;
             }
 
-            if (_enemyContainer != null)
+
+            if (_enemyContainer != null || _newEnemy != null)
             {
                 _newEnemy.transform.parent = _enemyContainer.transform;
             }
 
-            _newEnemy.GetComponent<Enemy>().EnablePowerUp();
+            // _newEnemy.GetComponent<Enemy>().EnablePowerUp();
         }
 
-        _swarmCounter = 0;
         StopCoroutine(EnemySpawnRoutine(minTime, maxTime));
-
     }
 
 
@@ -93,8 +91,7 @@ public class SpawnManager : MonoBehaviour
         while (_canSpawnPowerUp && _powerUps != null) 
         {
             yield return new WaitForSeconds(Random.Range(minTime, maxTime)); // 10, 20
-            // Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
-            Instantiate(_powerUps[8], randomStartPosition, Quaternion.identity);
+            Instantiate(_powerUps[Random.Range(0, _powerUps.Length)], randomStartPosition, Quaternion.identity);
         }
         
 
@@ -147,9 +144,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (isBossBattle && _swarmState == false)
         {
-            // _bossPrefab.GetComponent<BossManager>().StopSwarm();
             return true;
-
         }
         return false;
     }
@@ -165,7 +160,11 @@ public class SpawnManager : MonoBehaviour
     public void Swarm()
     {
         _swarmState = true;
-        _swarmCounter = 0;
+    }
+
+    public void DeductSwarmCounter()
+    {
+        _swarmCounter--;
     }
 
 }

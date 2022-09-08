@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+    // ? Feature: [ ] The boss and fleet come in low and small as the score reaches 1500 and when the boss arives, size adjusts, enemies die, start.
+
 public class BossManager : MonoBehaviour
 {
     private GameManager _gameManager;
@@ -13,8 +15,14 @@ public class BossManager : MonoBehaviour
     private AudioSource _explosionSound;
     private EdgeCollider2D _collider;
 
+    
+    
+    
+    //=====================================//
+    //========= Private Variables =========//
+
     [SerializeField] private AnimationCurve _xMovementCurve, _aggressivLungeCurve;
-    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _particlePulseCanon, _darkProjectile, _playerTarget;
+    [SerializeField] private GameObject _primaryAttack, _secondaryAttack, _laserFirePos, _altFirePos, _particlePulseCanon, _darkProjectile;
     [SerializeField] GameObject[] _homingPos;
     private Vector3 _entryPos, _startPos, _centerAttackTarget;
 
@@ -24,28 +32,27 @@ public class BossManager : MonoBehaviour
     [SerializeField] private int _state, _nextState, _pulseCanonColiderSize;
     [SerializeField] private bool _gameOver, _madeEntry, _stateRoutineLoaded;
 
-    // TODO: Create a timer after all enemies have been instantiated and bring back in the boss
-    // TODO: After boss is back in the game, lower the amount of powerups dropped. 
-    // TODO: [ ] Add an entry Animation
-    // ? Feature: [ ] The boss and fleet come in low and small as the score reaches 1500 and when the boss arives, size adjusts, enemies die, start.
-    // TODO: [ ] Add Death Animation
 
     
+    
+    
+    //=================================//
+    //========= Unity Methods =========//
+
     void Start()
     {
         _gameManager = GameManager.Instance;
-        if (_gameManager == null){
-            Debug.LogError("BossManager::GameManager is null");
-        }
-
+        if (_gameManager == null) { Debug.Log("BossManager:: _gameManager is null"); }
+    
         _player = GameObject.Find("Player").GetComponent<Player>();
-        _spawnManager.GetComponent<SpawnManager>();
-        _uiManager.GetComponent<UIManager>();
+        if (_player == null) { Debug.Log("BossManager:: _player is null"); }
         
-        if (_player == null && _uiManager == null && _spawnManager == null)
-        {
-            Debug.LogError("Player/Manager Scripts not found");
-        }
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null) { Debug.Log("BossManager:: _spawnManager is null"); }
+        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null) { Debug.Log("BossManager:: _uiManager is null"); }
+        
 
         _yMovementDirection = 1;
         _xMovementDirection = _xMovementDirection == 0 ? 1: -1;
@@ -68,6 +75,7 @@ public class BossManager : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(0, 0, 180);
     }
 
+
     void Update()
     {
         HealthCheck();
@@ -81,22 +89,10 @@ public class BossManager : MonoBehaviour
         {
             EnterScene();
         }
+
         _uiManager.ShowUIDamage();
     }
 
-    private void EnterScene()
-    {
-        this.transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(0, 12), (_speed - 3) * Time.deltaTime);
-
-        if (this.transform.position.y == 12)
-        {
-            this.transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, 180), new Vector3(0, 0, 0));
-            _madeEntry = true;
-            this.GetComponent<EdgeCollider2D>().enabled = true;
-            _spawnManager.IsBossBattle();
-            _spawnManager.StartGame(5, 8, 4, 6, true);
-        }
-    }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -116,10 +112,36 @@ public class BossManager : MonoBehaviour
                 break;
             
             default:
-                break;
+            break;
         }
 
     }
+
+    
+    
+    
+    //===================================//
+    //========= Starting Method =========//
+
+    private void EnterScene()
+    {
+        this.transform.position = Vector2.MoveTowards(this.transform.position, new Vector2(0, 12), (_speed - 3) * Time.deltaTime);
+
+        if (this.transform.position.y == 12)
+        {
+            this.transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, 180), new Vector3(0, 0, 0));
+            _madeEntry = true;
+            this.GetComponent<EdgeCollider2D>().enabled = true;
+            _spawnManager.IsBossBattle();
+            _spawnManager.StartGame(5, 8, 4, 6, true);
+        }
+    }
+
+    
+    
+    
+    //====================================//
+    //========= State Controller =========//
 
     private void AttackState(int attackState)
     {
@@ -189,9 +211,12 @@ public class BossManager : MonoBehaviour
         }
     }
 
+
     private void LoadNextState()
     {
         _state = Random.Range(1,7);
+
+        // Reduces same state calls.
         if (_nextState == _state)
         {
             _state = Random.Range(1,7);
@@ -200,11 +225,13 @@ public class BossManager : MonoBehaviour
 
     }
 
+
     private IEnumerator StateTimer(float min, float max)
     {
         yield return new WaitForSeconds(Random.Range(min, max));
         _state = 0;
     }
+
 
     private void BackToStart()
     {
@@ -223,12 +250,20 @@ public class BossManager : MonoBehaviour
             LoadNextState();            
         }
     }
+
     
+    
+    
+    //=================================//
+    //========= State Methods =========//
+
     private void BossMovement(float xDirection, float yDirection)
     {
+        // Speed is more controlled through the animation curve in the inspector then the speed directly
         transform.Translate(new Vector3(xDirection, yDirection, 0).normalized * _xMovementCurve.Evaluate(_speed - 1) * Time.deltaTime);
         transform.position =  new Vector3(Mathf.Clamp(this.transform.position.x, _leftBounds, _rightBounds), this.transform.position.y, 0);
     }
+
 
     private void NormalAttackState()
     {
@@ -244,6 +279,7 @@ public class BossManager : MonoBehaviour
         BossMovement(_xMovementDirection, _yMovementDirection);
     }
 
+
     private IEnumerator WaveMovementRoutine()
     {
         _stateRoutineLoaded = true;
@@ -255,7 +291,8 @@ public class BossManager : MonoBehaviour
         }
     }
 
-        private IEnumerator FireRoutine()
+
+    private IEnumerator FireRoutine()
     {
         _stateRoutineLoaded = true;
 
@@ -267,9 +304,10 @@ public class BossManager : MonoBehaviour
 
     private void AgressiveAttack()
     {
+        _stateRoutineLoaded = true;
         _xMovementDirection = _xMovementDirection == 0 ? 1 : -1;
         _yMovementDirection = 0;
-        this.transform.position = Vector2.Lerp(this.transform.position, _playerTarget.transform.position, _aggressivLungeCurve.Evaluate(_speed + 10) * Time.deltaTime);
+        this.transform.position = Vector2.Lerp(this.transform.position, _player.transform.position, _aggressivLungeCurve.Evaluate(_speed + 10) * Time.deltaTime);
     }
 
     private void SwarmState()
@@ -277,16 +315,14 @@ public class BossManager : MonoBehaviour
         _stateRoutineLoaded = true;
         this.transform.position = Vector2.Lerp(this.transform.position, new Vector2(this.transform.position.x, 12), _aggressivLungeCurve.Evaluate(_speed) * Time.deltaTime);
 
-        if (_spawnManager.CheckChildCount(true))
+        if (_spawnManager.CheckChildCount(true)) // TODO: [ ] Make sure only six enemies can spawn.
         {
             _state = 0;
         }
-
     }
 
     private void PulseCanonState()
     {
-
         _particlePulseCanon.SetActive(true);
         _particlePulseCanon.transform.GetChild(2).gameObject.SetActive(true);
         _particlePulseCanon.GetComponent<CapsuleCollider2D>().size.Set(3.8f, _pulseCanonColiderSize * Time.deltaTime);
@@ -304,6 +340,7 @@ public class BossManager : MonoBehaviour
         BossMovement(_xMovementDirection, 0);
     }
 
+    // ? Feature: [ ] Once shader graph is learned, this will be the new attack.
     private void PulseSweep()
     {
         _particlePulseCanon.SetActive(true);
@@ -316,13 +353,13 @@ public class BossManager : MonoBehaviour
         }
         else 
         {
-            Debug.Log("rotate");
             this.transform.Rotate(new Vector3(0, 0, -1) * (_speed + 20) * Time.deltaTime, Space.Self);
         }
     }
 
     private void HomingAttackState()
     {
+        // Projectiles have there own script to follow the player target.
         _stateRoutineLoaded = true;
         Instantiate(_darkProjectile, _homingPos[0].transform.position, Quaternion.identity);
         Instantiate(_darkProjectile, _homingPos[1].transform.position, Quaternion.identity);
@@ -344,10 +381,12 @@ public class BossManager : MonoBehaviour
         {
             _health = _maxHealth;
         }
+
         if (_health <= 0)
         {
-            _gameManager.GameOver();
             _gameOver = true;
+            _gameManager.GameOver(_gameOver);
+            _uiManager.DisplayGameOver("YOU WIN!!!");
             this.gameObject.SetActive(false);
         }
     }
