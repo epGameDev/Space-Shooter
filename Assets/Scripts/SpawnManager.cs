@@ -26,7 +26,7 @@ public class SpawnManager : MonoBehaviour
         _leftBounds = -11f;
         _rightBounds = 11f;
 
-        _swarmCounter = 10;
+        _swarmCounter = 0;
         _canSpawnEnemy = true;
         _canSpawnPowerUp = true;
         _isBossBattle = false;
@@ -59,7 +59,7 @@ public class SpawnManager : MonoBehaviour
                         _newEnemy = Instantiate<GameObject>(_enemyPrefab[_enemyPrefab.Length-1], randomStartPosition, Quaternion.identity);
                         _swarmCounter++;
                     }
-                    else if (isBossBattle && _enemyContainer.transform.childCount <= 3) // Boss State If No Swarm State
+                    else if (isBossBattle && _enemyContainer.transform.childCount <= 2) // Boss State If No Swarm State
                     {
                         _newEnemy = Instantiate<GameObject>(_enemyPrefab[Random.Range(0, _enemyPrefab.Length - 1)], randomStartPosition, Quaternion.identity);
                     }

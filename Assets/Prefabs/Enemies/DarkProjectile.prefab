@@ -9520,6 +9520,7 @@ GameObject:
   - component: {fileID: 7987668775279466810}
   - component: {fileID: 7986285332787112488}
   - component: {fileID: 7986755173615705482}
+  - component: {fileID: 5453059864636144905}
   m_Layer: 2
   m_Name: DarkProjectile
   m_TagString: EnemyFire
@@ -9639,6 +9640,26 @@ MonoBehaviour:
   Renderers: []
   Lights:
   - {fileID: 7980610478061377350}
+--- !u!95 &5453059864636144905
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017746766193666136}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 107af9b6da3d88a2db8382adc02e9ebb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8018563036278957904
 GameObject:
   m_ObjectHideFlags: 0

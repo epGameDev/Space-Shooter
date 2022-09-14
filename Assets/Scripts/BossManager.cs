@@ -108,7 +108,7 @@ public class BossManager : MonoBehaviour
                 Destroy(other.gameObject);
                 break;
             case "Bomb":
-                _health -= 200;
+                _health -= 400;
                 break;
             
             default:
@@ -157,12 +157,12 @@ public class BossManager : MonoBehaviour
                 NormalAttackState();
                 break;
 
-            case 2: //========================================== Agressive Attack State
+            case 2: //========================================== Aggressive Attack State
                 if(!_stateRoutineLoaded)
                 {
                     StartCoroutine(StateTimer(3f, 3f));
                 }
-                AgressiveAttack();
+                AggressiveAttack();
                 break;
 
             case 3: //========================================== Pulse Cannon State
@@ -302,7 +302,7 @@ public class BossManager : MonoBehaviour
         }
     }
 
-    private void AgressiveAttack()
+    private void AggressiveAttack()
     {
         _stateRoutineLoaded = true;
         _xMovementDirection = _xMovementDirection == 0 ? 1 : -1;
