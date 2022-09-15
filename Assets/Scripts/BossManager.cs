@@ -305,8 +305,6 @@ public class BossManager : MonoBehaviour
     private void AggressiveAttack()
     {
         _stateRoutineLoaded = true;
-        _xMovementDirection = _xMovementDirection == 0 ? 1 : -1;
-        _yMovementDirection = 0;
         this.transform.position = Vector2.Lerp(this.transform.position, _player.transform.position, _aggressivLungeCurve.Evaluate(_speed + 10) * Time.deltaTime);
     }
 
