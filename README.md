@@ -1,5 +1,5 @@
 # Space Shooter
-Game Demo: https://space-shooter.luckyducky.repl.co/
+Game Demo: [https://space-shooter.luckyducky.repl.co/](https://phantomgamedev.itch.io/space-shooter-demo)
 
 --- 
 
